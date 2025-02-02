@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under 14 Courses</title>
+    <link rel="stylesheet" href="..\css\style.css">
+    <script src="../js/auth.js"></script>
+
+    <script>
+        function showCourses(category) {
+            document.querySelectorAll('.category').forEach(el => el.classList.add('hidden'));
+            document.getElementById(category).classList.remove('hidden');
+        }
+    </script>
+</head>
+
+<body class="under14">
+
+    <header>
+        <nav>
+            <ul class="navbar">
+                <li><button onclick="logout()">Logout</button></li>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="under14.html" class="active">Under 14</a></li>
+                <li><a href="../over14/index.html">Over 14</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../services.html">Services</a></li>
+                <li><a href="../portfolio.html">Portfolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Under 14 Courses</h1>
+            <p>Explore fun and interactive courses in Photography or Learning.</p>
+        </section>
+
+        <!-- Category Cards -->
+        <div class="card-container">
+            <div class="category-card" onclick="showCourses('photography-category')">
+                <h3>Photography</h3>
+                <img src="../images/photography1.jpg" alt="Photography">
+                <p>Explore the world of photography!</p>
+            </div>
+            <div class="category-card" onclick="showCourses('learning-category')">
+                <h3>Learning</h3>
+                <img src="../images/learning1.jpg" alt="Learning">
+                <p>Discover exciting learning adventures.</p>
+            </div>
+        </div>
+
+        <!-- Photography Category Courses -->
+        <section id="photography-category" class="category hidden">
+            <div class="course-card">
+                <img src="../images/pc1u14.jpg" alt="C1: Introduction in Microsoft Designer">
+                <h3>C1: Introduction to Microsoft Designer</h3>
+                <p>Learn the basics of Microsoft Designer!</p>
+                <a href="phu14c1.html" class="course-link">Learn More</a>
+            </div>
+            <div class="course-card">
+                <img src="../images/pc2u14.jpg" alt="C2: Create your own graphic designs">
+                <h3>C2: Create your own graphic designs</h3>
+                <p>Generate random photos to practice your skills!</p>
+                <a href="phu14c2.html" class="course-link">Learn More</a>
+            </div>
+            <div class="course-card">
+                <img src="../images/pc3u14.jpg" alt="C3: Create more advanced projects">
+                <h3>C3: Create more advanced projects</h3>
+                <p>Explore creative editing techniques and projects!</p>
+                <a href="phu14c3.html" class="course-link">Learn More</a>
+            </div>
+        </section>
+
+        <!-- Learning Category Courses -->
+        <section id="learning-category" class="category hidden">
+            <div class="course-card">
+                <img src="../images/lc1u14.jpg" alt="C1: Introduction in Mentimeter">
+                <h3>C1: Introduction to Mentimeter</h3>
+                <p>Learn the basics of Mentimeter!</p>
+                <a href="leu14c1.html" class="course-link">Learn More</a>
+            </div>
+            <div class="course-card">
+                <img src="../images/lc2u14.jpg" alt="C2: School Project Presentation">
+                <h3>C2: School Project Presentation</h3>
+                <p>Start your Mentimeter journey with simple, fun presentations!</p>
+                <a href="leu14c2.html" class="course-link">Learn More</a>
+            </div>
+            <div class="course-card">
+                <img src="../images/lc3u14.jpg" alt="C3: Test-quiz Presentation">
+                <h3>C3: Test-quiz Presentation</h3>
+                <p>Enhance your learning skills by creating your own test-quiz presentation!</p>
+                <a href="leu14c3.html" class="course-link">Learn More</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AI Learning & Photography. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

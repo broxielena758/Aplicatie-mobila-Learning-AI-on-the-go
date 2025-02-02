@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Over 14 Courses</title>
+    <link rel="stylesheet" href="..\css\style.css">
+    <script src="../js/auth.js"></script>
+
+    <script>
+        function showCourses(category) {
+            document.querySelectorAll('.category').forEach(el => el.classList.add('hidden'));
+            document.getElementById(category).classList.remove('hidden');
+        }
+    </script>
+</head>
+
+<body class="over14">
+
+    <header>
+        <nav>
+            <ul class="navbar">
+                <li><button onclick="logout()">Logout</button></li>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../under14/index.html">Under 14</a></li>
+                <li><a href="over14.html" class="active">Over 14</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../services.html">Services</a></li>
+                <li><a href="../portfolio.html">Portfolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Over 14 Courses</h1>
+            <p>Enhance your skills with advanced courses in Photography and Learning.</p>
+        </section>
+
+        <!-- Category Cards -->
+        <div class="card-container">
+            <div class="category-card" onclick="showCourses('photography-category')">
+                <h3>Photography</h3>
+                <img src="../images/advanced1.jpg" alt="Photography">
+                <p>Take your photography to the next level.</p>
+            </div>
+            <div class="category-card" onclick="showCourses('learning-category')">
+                <h3>Learning</h3>
+                <img src="../images/science1.jpg" alt="Learning">
+                <p>Explore advanced subjects and challenges.</p>
+            </div>
+        </div>
+
+        <!-- Photography Category Courses -->
+        <section id="photography-category" class="category hidden">
+            <div class="course-card">
+                <img src="../images/pc1o14.jpg" alt="C1: Introduction in CapCut">
+                <h3>C1: Introduction to CapCut</h3>
+                <p>Let's get started with a little introduction of the CapCut app!</p>
+                <a href="pho14c1.html" class="course-link">Learn More</a>
+            </div>
+            <div class="course-card">
+                <img src="../images/pc2o14.jpg" alt="C2: Photo-editing">
+                <h3>C2: Photo-editing</h3>
+                <p>Learn how to edit your photos with pro tips!</p>
+                <a href="pho14c2.html" class="course-link">Learn More</a>
+            </div>
+            <div class="course-card">
+                <img src="../images/pc3o14.jpg" alt="C3: Video-editing">
+                <h3>C3: Video-editing</h3>
+                <p>Enhance your photos with professional editing tools.</p>
+                <a href="pho14c3.html" class="course-link">Learn More</a>
+            </div>
+        </section>
+
+        <!-- Learning Category Courses -->
+        <section id="learning-category" class="category hidden">
+            <div class="course-card">
+                <img src="../images/lc1o14.jpg" alt="C1: Introduction in ChatGPT: Interview questions">
+                <h3>C1: Introduction to ChatGPT: Interview questions</h3>
+                <p>Let's get started with a little introduction of the ChatGPT: Interview questions section!</p>
+                <a href="leo14c1.html" class="course-link">Learn More</a>
+            </div>
+            <div class="course-card">
+                <img src="../images/lc2o14.jpg" alt="C2: Prepare for a Univerity Interview">
+                <h3>C2: Prepare for an Univerity Interview</h3>
+                <p>Master your Univerity interview with the help of AI!</p>
+                <a href="leo14c2.html" class="course-link">Learn More</a>
+            </div>
+            <div class="course-card">
+                <img src="../images/lc3o14.jpg" alt="C3: Prepare for a Job Interview">
+                <h3>C3: Prepare for a Job Interview</h3>
+                <p>Nervous about getting a job? This course will help you pass your interview with great success!</p>
+                <a href="leo14c3.html" class="course-link">Learn More</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AI Learning & Photography. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

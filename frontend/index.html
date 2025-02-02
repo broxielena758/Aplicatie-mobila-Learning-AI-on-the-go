@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Learning and Photography</title>
+    <link rel="stylesheet" href="css\style.css">
+    <script>
+        // Function to handle age category selection and redirection
+        function handleCategorySelection(category) {
+            if (category === 'under-14') {
+                window.location.href = 'under14/index.html'; // Redirect to under14 folder
+            } else if (category === 'over-14') {
+                window.location.href = 'over14/index.html'; // Redirect to over14 folder
+            }
+        }
+
+        // Function to toggle the visibility of detailed descriptions
+        function toggleDescription(sectionId) {
+            const descriptions = document.querySelectorAll('.description');
+            descriptions.forEach(desc => desc.classList.add('hidden')); // Hide all descriptions
+            document.getElementById(sectionId).classList.remove('hidden'); // Show selected description
+        }
+
+        // Function to hide all descriptions
+        function hideDescriptions() {
+            const descriptions = document.querySelectorAll('.description');
+            descriptions.forEach(desc => desc.classList.add('hidden')); // Hide all descriptions
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="navbar">
+                <li><a href="register.html" class="register-button"><i class="fas fa-user-plus"></i></a></li>
+                <li><button onclick="logout()">Logout</button></li>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Artificial Intelligence in Learning and Photography</h1>
+            <p>Your gateway to understanding and learning how to use Artificial Intelligence.</p>
+
+            <!-- Interactive Buttons for Age Groups -->
+            <div class="age-buttons">
+                <button onclick="handleCategorySelection('under-14')">Under 14</button>
+                <button onclick="handleCategorySelection('over-14')">Over 14</button>
+            </div>
+        </section>
+
+        <!-- Cards Section -->
+        <div class="card-container">
+            <div class="card" onclick="toggleDescription('learning-description')">
+                <img src="images/learning.jpg" alt="Learning with AI">
+                <h2>Learning with AI</h2>
+                <p>Engage with AI-powered tools to make learning interactive and enjoyable.</p>
+            </div>
+            <div class="card" onclick="toggleDescription('photography-description')">
+                <img src="images/photography.jpg" alt="AI in Photography">
+                <h2>Photography Insights</h2>
+                <p>Discover how AI revolutionizes photography with tips and tools.</p>
+            </div>
+        </div>
+
+        <!-- Detailed Descriptions Section -->
+        <div class="description-container">
+            <div id="learning-description" class="description hidden">
+                <p>
+                    AI has transformed the way we learn by offering tools that adapt to individual needs and make
+                    learning enjoyable.
+                    For learners under 14, interactive platforms such as educational games and story-based learning apps
+                    use AI to foster curiosity and engagement. These tools incorporate vibrant visuals and gamified
+                    challenges to keep young minds motivated.
+                </p>
+                <p>
+                    For learners over 14, AI enhances self-directed learning through platforms like ChatGPT, which
+                    provides in-depth explanations, mentorship, and guidance on complex topics. AI-powered tools such as
+                    personalized quiz generators and virtual labs ensure a thorough understanding of subjects like
+                    mathematics, coding, and science. Additionally, they offer real-world applications and project-based
+                    learning opportunities to prepare students for future challenges.
+                </p>
+                <button class="back-button" onclick="hideDescriptions()">Hide</button>
+            </div>
+
+            <div id="photography-description" class="description hidden">
+                <p>
+                    AI is revolutionizing photography by enabling both beginners and professionals to create stunning
+                    visuals with minimal effort.
+                    For users under 14, AI tools like fun photo-editing apps introduce the basics of photography with
+                    simple, guided steps. These tools offer creative templates, playful filters, and automated features
+                    that make learning enjoyable while nurturing creativity.
+                </p>
+                <p>
+                    For those over 14, advanced AI tools provide robust capabilities for photo enhancement, composition,
+                    and editing. Applications like Microsoft Designer and CapCut offer intelligent recommendations for
+                    color adjustments, cropping, and background enhancement, empowering users to create high-quality
+                    projects. Furthermore, AI-powered cameras and mobile apps detect optimal lighting, focus, and
+                    settings, ensuring professional-grade results with ease.
+                </p>
+                <button class="back-button" onclick="hideDescriptions()">Hide</button>
+            </div>
+        </div>
+
+        <div>
+            <p id="userStatus">Checking login status...</p>
+            <button id="logoutButton" onclick="logout()" style="display: none;">Logout</button>
+            <a href="register.html" id="loginButton" style="display: none;">Login</a>
+
+            <script src="js/auth.js"></script>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AI Learning & Photography. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
