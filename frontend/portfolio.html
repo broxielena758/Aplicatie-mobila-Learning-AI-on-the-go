@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - AI Learning & Photography</title>
-    <link rel="stylesheet" href="css\style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
+<script src="js/auth.js"></script>
 
 <body>
     <header>
@@ -25,108 +27,159 @@
     <main>
         <section class="portfolio-section">
             <h1>Your Portfolio</h1>
-            <p>Here you can complete your own portfolio with the homework that you'll be given, but also your own
+            <p>Here you can upload files and complete your own portfolio with the homework that you'll be given, but also your own
                 personal projects!</p>
 
             <div class="portfolio-cards">
-                <!-- Portfolio for Under 14 -->
+                <!-- 6 Under 14 Courses -->
                 <h2>Under 14 Courses</h2>
                 <img src="images/portfoliou14.jpg" alt="Portfolio under 14">
                 <article class="portfolio-card">
                     <h3>Photography: Introduction to Microsoft Designer</h3>
-                    <p>This course will be the perfect opportunity for you to learn the basics of Microsoft Designer.
-                    </p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-pho1-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-pho1-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('pho1', 1, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-pho1-project" style="display:none;">
+                    <button onclick="document.getElementById('file-pho1-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('pho1', 1, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Photography: Create Your Own Designs</h3>
-                    <p>Learn how to use Microsoft Designer to generate fun and creative graphic designs.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-pho2-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-pho2-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('pho2', 2, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-pho2-project" style="display:none;">
+                    <button onclick="document.getElementById('file-pho2-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('pho2', 2, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Photography: Create More Advanced Projects</h3>
-                    <p>Take the opportunity to learn how to create more advanced projects by using different Microsoft
-                        Designer editing tools.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-pho3-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-pho3-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('pho3', 3, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-pho3-project" style="display:none;">
+                    <button onclick="document.getElementById('file-pho3-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('pho3', 3, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Learning: Introduction to Mentimeter</h3>
-                    <p>This course will help you ditch the "old way" of making a presentation by using Mentimeter
-                        instead.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-learn1-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-learn1-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('learn1', 4, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-learn1-project" style="display:none;">
+                    <button onclick="document.getElementById('file-learn1-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('learn1', 4, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Learning: School Project Presentation</h3>
-                    <p>Make your school project presentation more fun by using Mentimeter.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-learn2-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-learn2-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('learn2', 5, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-learn2-project" style="display:none;">
+                    <button onclick="document.getElementById('file-learn2-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('learn2', 5, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Learning: Test-quiz Presentations</h3>
-                    <p>Let's take a basic test-quiz and turn it into an interactive test-quiz presentation with the help
-                        of Mentimeter.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-learn3-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-learn3-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('learn3', 6, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-learn3-project" style="display:none;">
+                    <button onclick="document.getElementById('file-learn3-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('learn3', 6, 'project')">Upload</button>
                 </article>
             </div>
 
-            <br></br>
-
             <div class="portfolio-cards">
-                <!-- Portfolio for Over 14 -->
+                <!-- 6 Over 14 Courses -->
                 <h2>Over 14 Courses</h2>
                 <img src="images/portfolioo14.jpg" alt="Portfolio over 14">
                 <article class="portfolio-card">
                     <h3>Photography: Introduction to CapCut</h3>
-                    <p>Learn the basics of editing in CapCut.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-pho4-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-pho4-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('pho4', 7, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-pho4-project" style="display:none;">
+                    <button onclick="document.getElementById('file-pho4-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('pho4', 7, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
-                    <h3>Photography: Photo Editing</h3>
-                    <p>Improve your skills with advanced photo editing techniques and tools offered by CapCut.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <h3>Photography: Advanced Photo Editing</h3>
+                    <input type="file" id="file-pho5-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-pho5-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('pho5', 8, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-pho5-project" style="display:none;">
+                    <button onclick="document.getElementById('file-pho5-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('pho5', 8, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Photography: Video Editing</h3>
-                    <p>If you are interested in learning about video editing, this lesson will help you make your job
-                        easier by using CapCut.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-pho6-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-pho6-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('pho6', 9, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-pho6-project" style="display:none;">
+                    <button onclick="document.getElementById('file-pho6-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('pho6', 9, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Learning: Introduction to ChatGPT: Interview Questions</h3>
-                    <p>This lesson is perfect if you are preparing for an interview, so let's get you introduced to
-                        ChatGPT: Interview Questions.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-learn4-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-learn4-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('learn4', 10, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-learn4-project" style="display:none;">
+                    <button onclick="document.getElementById('file-learn4-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('learn4', 10, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Learning: Prepare for an University Interview</h3>
-                    <p>With the help of ChatGPT: Interview Questions your dream University interview will be a piece of
-                        cake.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
+                    <input type="file" id="file-learn5-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-learn5-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('learn5', 10, 'assignment')">Upload</button>
+
+                    <input type="file" id="file-learn5-project" style="display:none;">
+                    <button onclick="document.getElementById('file-learn5-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('learn5', 10, 'project')">Upload</button>
                 </article>
+
                 <article class="portfolio-card">
                     <h3>Learning: Prepare for a Job Interview</h3>
-                    <p>Use AI tools to secure your spot at your job interview by using ChatGPT: Interview Questions.</p>
-                    <button>Homework Folder</button>
-                    <button>Personal Projects Folder</button>
-                </article>
-            </div>
+                    <input type="file" id="file-learn6-homework" style="display:none;">
+                    <button onclick="document.getElementById('file-learn6-homework').click();">Homework Folder</button>
+                    <button onclick="uploadFile('learn6', 10, 'assignment')">Upload</button>
 
+                    <input type="file" id="file-learn6-project" style="display:none;">
+                    <button onclick="document.getElementById('file-learn6-project').click();">Personal Projects Folder</button>
+                    <button onclick="uploadFile('learn6', 10, 'project')">Upload</button>
+                </article>
+
+            </div>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2025 AI Learning & Photography. All rights reserved.</p>
     </footer>
+
+    <script src="js/portfolio.js"></script>
 </body>
 
 </html>

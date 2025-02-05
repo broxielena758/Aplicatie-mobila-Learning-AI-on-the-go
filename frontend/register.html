@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login/Sign Up</title>
-    <link rel="stylesheet" href="css\style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -15,8 +15,6 @@
             <div class="tabs">
                 <button id="loginTab" class="active">Login</button>
                 <button id="registerTab" class="active">Register</button>
-                <i class="icon-register"></i>
-                </button>
             </div>
 
             <!-- Login Form -->
@@ -28,7 +26,7 @@
                 <input type="password" id="loginPassword" name="password" required>
                 <button type="submit">Login</button>
                 <a href="index.html" class="button" onclick="localStorage.clear();">Continue without login</a>
-          </form>
+            </form>
 
             <!-- Register Form -->
             <form id="registerForm" style="display: none;">
@@ -74,99 +72,76 @@
             this.classList.add("active");
             document.getElementById("loginTab").classList.remove("active");
         });
-    </script>
 
-<script>
-    // 📌 Schimbă între tab-urile Login și Register
-    document.getElementById("loginTab").addEventListener("click", function () {
-        document.getElementById("loginForm").style.display = "block";
-        document.getElementById("registerForm").style.display = "none";
-        this.classList.add("active");
-        document.getElementById("registerTab").classList.remove("active");
-    });
+        // ✅ Handle REGISTER
+        document.getElementById("registerForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); 
 
-    document.getElementById("registerTab").addEventListener("click", function () {
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("registerForm").style.display = "block";
-        this.classList.add("active");
-        document.getElementById("loginTab").classList.remove("active");
-    });
+            const firstName = document.getElementById("registerFirstName").value;
+            const lastName = document.getElementById("registerLastName").value;
+            const dob = document.getElementById("registerDOB").value;
+            const email = document.getElementById("registerEmail").value;
+            const phone = document.getElementById("registerPhone").value;
+            const password = document.getElementById("registerPassword").value;
+            const confirmPassword = document.getElementById("registerConfirmPassword").value;
 
-    // 📌 Funcția pentru REGISTER
-    document.getElementById("registerForm").addEventListener("submit", async function (event) {
-        event.preventDefault(); // Oprire submit implicit
-
-        const firstName = document.getElementById("registerFirstName").value;
-        const lastName = document.getElementById("registerLastName").value;
-        const dob = document.getElementById("registerDOB").value;
-        const email = document.getElementById("registerEmail").value;
-        const phone = document.getElementById("registerPhone").value;
-        const password = document.getElementById("registerPassword").value;
-        const confirmPassword = document.getElementById("registerConfirmPassword").value;
-
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
-
-        const userData = { first_name: firstName, last_name: lastName, dob, email, phone, password };
-
-        try {
-            const response = await fetch("http://localhost:5000/api/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(userData)
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                alert("Registration successful! You can now log in.");
-                document.getElementById("loginTab").click(); // Mută utilizatorul la tab-ul de login
-            } else {
-                alert("Registration failed: " + result.error);
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
             }
-        } catch (error) {
-            alert("Error connecting to server.");
-        }
-    });
 
-    // 📌 Funcția pentru LOGIN
-    document.getElementById("loginForm").addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prevent default form submission
+            const userData = { first_name: firstName, last_name: lastName, dob, email, phone, password };
 
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
+            try {
+                const response = await fetch("http://localhost:5000/api/auth/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(userData)
+                });
 
-    try {
-        const response = await fetch("http://localhost:5000/api/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
+                const result = await response.json();
+                if (response.ok) {
+                    alert("Registration successful! You can now log in.");
+                    document.getElementById("loginTab").click(); 
+                } else {
+                    alert("Registration failed: " + result.error);
+                }
+            } catch (error) {
+                alert("Error connecting to server.");
+            }
         });
 
-        const result = await response.json();
-        console.log("Login Response:", result); // ✅ Debugging log to check response
+        // ✅ Handle LOGIN
+        document.getElementById("loginForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); 
 
-        if (response.ok) {
-            localStorage.setItem("token", result.token); // ✅ Store JWT token
-            localStorage.setItem("age", result.user.age); // ✅ Store Age
-            localStorage.setItem("email", result.user.email); // Store Email for reference
-            
-            alert(`Login successful! Welcome ${result.user.email}`);
-            window.location.href = "index.html"; 
-        } else {
-            alert("Login failed: " + result.message);
-        }
-    } catch (error) {
-        console.error("Error during login:", error);
-        alert("Login error: " + error.message);
-    }
-});
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
 
+            try {
+                const response = await fetch("http://localhost:5000/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
 
-</script>
+                const result = await response.json();
 
+                if (response.ok) {
+                    localStorage.setItem("token", result.token);
+                    localStorage.setItem("user_id", result.user.id);
+                    localStorage.setItem("age", result.user.age);
 
+                    alert(`Login successful!`);
+                    window.location.href = "index.html";
+                } else {
+                    alert("Login failed: " + result.message);
+                }
+            } catch (error) {
+                alert("Login error: " + error.message);
+            }
+        });
+    </script>
 </body>
 
 </html>

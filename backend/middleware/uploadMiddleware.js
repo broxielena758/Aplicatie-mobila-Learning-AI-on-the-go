@@ -2,6 +2,9 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
+const fileUpload = require("express-fileupload");
+app.use(fileUpload());
+
 // Ensure directories exist
 const homeworkFolder = path.join(__dirname, "../uploads/homework");
 const projectsFolder = path.join(__dirname, "../uploads/personal_projects");

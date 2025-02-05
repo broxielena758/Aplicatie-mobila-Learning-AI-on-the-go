@@ -1,9 +1,13 @@
 async function uploadFile(courseName, courseId, type) {
-    const fileInput = document.getElementById(`fileInput-${courseName}-${type}`);
+    const idSuffix = type === 'assignment' ? 'homework' : type;
+    console.log('courseName:', courseName, 'type:', type, 'idSuffix:', idSuffix)
+    const fileInput = document.getElementById(`file-${courseName}-${idSuffix}`);
+    console.log(`file-${courseName}-${idSuffix}`);
+
     const token = localStorage.getItem("token");
     const user_id = localStorage.getItem("user_id");
 
-    if (!fileInput.files.length) {
+    if (!fileInput || !fileInput.files.length) {
         alert("Please select a file.");
         return;
     }
@@ -14,6 +18,7 @@ async function uploadFile(courseName, courseId, type) {
     formData.append("course_id", courseId);
     formData.append("type", type);
 
+
     try {
         const response = await fetch("http://localhost:5000/api/portfolio/upload", {
             method: "POST",
@@ -22,44 +27,46 @@ async function uploadFile(courseName, courseId, type) {
 
         const result = await response.json();
         alert(result.message);
-        loadSubmissions(courseName, courseId);
+        console.log(result.message);
+        loadUserSubmissions();
     } catch (error) {
         alert("Upload failed.");
     }
 }
 
-// Fetch user submissions
-async function loadSubmissions(courseName, courseId) {
+// 📌 Funcție pentru a încărca fișierele utilizatorului
+async function loadUserSubmissions() {
     const user_id = localStorage.getItem("user_id");
 
-    const response = await fetch(`http://localhost:5000/api/portfolio/user/${user_id}`);
-    const submissions = await response.json();
+    if (!user_id) {
+        console.error("User ID missing. User not logged in.");
+        return;
+    }
 
-    // Filter submissions
-    const homework = submissions.filter(sub => sub.course_id == courseId && sub.type === "assignment");
-    const projects = submissions.filter(sub => sub.course_id == courseId && sub.type === "project");
+    try {
+        const response = await fetch(`http://localhost:5000/api/portfolio/user/${user_id}`);
+        const submissions = await response.json();
 
-    document.getElementById(`submissionList-${courseName}-homework`).innerHTML = homework.map(sub => `
-        <p>Homework: <a href="${sub.file_path}" target="_blank">View File</a></p>
-    `).join("");
+        if (!Array.isArray(submissions)) {
+            console.error("Invalid submissions format:", submissions);
+            return;
+        }
 
-    document.getElementById(`submissionList-${courseName}-project`).innerHTML = projects.map(sub => `
-        <p>Project: <a href="${sub.file_path}" target="_blank">View File</a></p>
-    `).join("");
+        submissions.forEach(sub => {
+            const submissionList = document.getElementById(`submissionList-${sub.course_id}-${sub.type}`);
+            if (submissionList) {
+                submissionList.innerHTML += `
+                    <p><a href="${sub.file_path}" target="_blank">📂 ${sub.type.toUpperCase()} - View File</a></p>
+                `;
+            }
+        });
+
+    } catch (error) {
+        console.error("Error loading submissions:", error);
+    }
 }
 
-// Admin function to view all submissions
-async function loadAllSubmissions() {
-    const response = await fetch("http://localhost:5000/api/portfolio/admin/submissions");
-    const submissions = await response.json();
-
-    document.getElementById("adminSubmissionList").innerHTML = submissions.map(sub => `
-        <p>User ${sub.user_id}: <a href="${sub.file_path}" target="_blank">${sub.type}</a></p>
-    `).join("");
-}
-
-// Load all user submissions when the page loads
+// 📌 Încarcă automat fișierele utilizatorului la încărcarea paginii
 document.addEventListener("DOMContentLoaded", () => {
-    loadSubmissions("capcut", 3);
-    loadSubmissions("chatgpt", 4);
+    loadUserSubmissions();
 });
