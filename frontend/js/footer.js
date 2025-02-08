@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!footer) return;
 
     let lastScrollTop = 0; // Store the last known scroll position
+    let footerVisible = false; // Track footer visibility
 
     document.addEventListener("scroll", () => {
         const totalHeight = document.documentElement.scrollHeight;
@@ -11,12 +12,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (scrollTop + visibleHeight >= totalHeight - 5) {
             // ✅ Show footer when reaching the bottom
-            footer.style.opacity = "1";
-            footer.style.transform = "translateY(0)";
+            if (!footerVisible) {
+                footer.style.opacity = "1";
+                footer.style.transform = "translateY(0)";
+                footerVisible = true;
+            }
         } else if (scrollTop < lastScrollTop) {
             // ✅ Hide footer when scrolling up
-            footer.style.opacity = "0";
-            footer.style.transform = "translateY(100%)";
+            if (footerVisible) {
+                footer.style.opacity = "0";
+                footer.style.transform = "translateY(100%)";
+                footerVisible = false;
+            }
         }
 
         lastScrollTop = scrollTop; // Update scroll position

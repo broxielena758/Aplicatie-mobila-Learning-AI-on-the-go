@@ -5,15 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Under 14 Courses</title>
-    <link rel="stylesheet" href="..\css\style.css">
+    <link rel="stylesheet" href="..\css\common.css">
+    <link rel="stylesheet" href="..\css\under14.css">
     <script src="../js/auth.js"></script>
 
     <script>
         function showCourses(category) {
-            document.querySelectorAll('.category').forEach(el => el.classList.add('hidden'));
-            document.getElementById(category).classList.remove('hidden');
+            // Ascunde toate secțiunile de cursuri
+            document.querySelectorAll('.category').forEach(el => {
+                el.classList.remove('show');
+                el.style.display = 'none'; // 🔥 Ascunde efectiv cursurile anterioare
+            });
+    
+            // Afișează doar secțiunea selectată
+            const selectedCategory = document.getElementById(category);
+            selectedCategory.style.display = 'flex'; 
+    
+            // ✅ Adaugă clasa 'show' cu un delay mic pentru efect de fade-in
+            setTimeout(() => selectedCategory.classList.add('show'), 10);
         }
-    </script>
+    </script>    
+    
 </head>
 
 <body class="under14">

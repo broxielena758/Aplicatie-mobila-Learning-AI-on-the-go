@@ -437,8 +437,8 @@ footer {
     padding: 1rem;
     width: 100%;
     opacity: 0; /* ✅ Hidden by default */
-    transform: translateY(100%); /* ✅ Position footer below screen */
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(100%); /* ✅ Move out of view */
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     position: fixed;
     bottom: 0;
     left: 0;

@@ -1,0 +1,56 @@
+/* ✅ NAVBAR GENERAL - APLICABIL ÎN TOATE PAGINILE */
+.navbar {
+    background: linear-gradient(90deg, #007BFF, #0056b3);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* ✅ Asigură alinierea verticală perfectă */
+    gap: 1.5rem;
+    list-style: none;
+    border-radius: 0 0 10px 10px;
+}
+
+/* ✅ Stilizare Link-uri și Buton Logout */
+.navbar a, 
+.navbar button {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.6rem 1.2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 5px;
+    font-weight: bold;
+    display: flex; 
+    align-items: center; /* ✅ Fix pentru aliniere verticală */
+    justify-content: center;
+}
+
+/* ✅ Hover Effect pentru Link-uri & Logout */
+.navbar a:hover, 
+.navbar .active, 
+.navbar button:hover {
+    background-color: #004c99;
+    transform: scale(1.1);
+}
+
+/* ✅ Special pentru Logout Button */
+.navbar button {
+    background: none;
+    border: 2px solid white;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: inherit;
+    display: flex;
+    align-items: center; /* ✅ Fix pentru aliniere */
+    height: 100%;
+    padding: 0.5rem 1rem;
+}
+
+/* ✅ Logout Hover */
+.navbar button:hover {
+    background: white;
+    color: #0056b3;
+    border-color: #004c99;
+    transform: scale(1.05);
+}

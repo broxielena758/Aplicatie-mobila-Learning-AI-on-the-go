@@ -1,0 +1,271 @@
+/* Resetare globală */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Stiluri generale */
+html, body {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #b8f3d0, #e8f5ff);
+    color: #444;
+    line-height: 1.6;
+}
+
+/* Structura paginii */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background: linear-gradient(90deg, #48c774, #40b484);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.navbar a:hover,
+.navbar .active {
+    background-color: #339966;
+    transform: scale(1.1);
+}
+
+/* Logout Button */
+.navbar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar button:hover {
+    background-color: #339966;
+    transform: scale(1.1);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 0;
+    background: linear-gradient(to bottom right, #48c774, #40b484);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: white;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Buttons for Age Groups */
+.age-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.age-buttons button {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(90deg, #48c774, #339966);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.age-buttons button:hover {
+    background: #40b484;
+    transform: scale(1.05);
+}
+
+/* Card Section */
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+    gap: 1.5rem;
+}
+
+/* Card Styling */
+.card {
+    background: linear-gradient(to bottom, #ffffff, #b8f3d0);
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1;
+    max-width: 45%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Fix pentru imagini care ieșeau din card */
+.card img {
+    width: 100%;
+    height: auto;
+    max-width: 250px; /* ✅ Ajustează dimensiunea maximă */
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Hover effect for cards */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+    color: #339966;
+    margin-bottom: 1rem;
+}
+
+.card p {
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Descriptions Section */
+.description-container {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.description {
+    display: none;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.description p {
+    margin-bottom: 10px;
+}
+
+.description:not(.hidden) {
+    display: block;
+}
+
+/* Hide Button */
+.back-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(90deg, #339966, #40b484);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    main {
+        width: 90%;
+    }
+
+    .card-container {
+        flex-direction: column;
+    }
+
+    .card {
+        max-width: 100%;
+    }
+
+    .card img {
+        max-width: 200px; /* ✅ Ajustare pentru ecrane mici */
+    }
+}

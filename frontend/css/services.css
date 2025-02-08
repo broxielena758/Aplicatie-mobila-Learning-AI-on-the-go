@@ -1,0 +1,204 @@
+/* Resetare globală */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #b8f3d0, #e8f5ff);
+    color: #444;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background: linear-gradient(90deg, #48c774, #40b484);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.navbar li {
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar a:hover,
+.navbar .active {
+    background-color: #339966;
+    transform: scale(1.1);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+main {
+    min-height: 120vh; /* 🔥 Asigură că pagina este suficient de lungă */
+    padding-bottom: 5rem; /* 🔥 Evită suprapunerea conținutului cu footer-ul */
+}
+
+h1 {
+    text-align: center;
+    color: #339966;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 2rem;
+}
+
+/* Services Section */
+.services-section {
+    padding: 2rem;
+    background: linear-gradient(to bottom, #f0fff4, #d6ffe1);
+    border-radius: 10px;
+}
+
+/* Services Cards Grid */
+.services-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+/* Individual Service Card */
+.services-cards article {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.services-cards article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Service Card Title */
+.services-cards h2 {
+    color: #339966;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+.services-cards article:hover h2 {
+    color: #2a865c;
+}
+
+/* Service Description */
+.services-cards p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* 🔹 Listă de cursuri îmbunătățită */
+.services-cards ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.services-cards ul li {
+    margin-bottom: 0.8rem;
+}
+
+.services-cards ul li a {
+    display: inline-block;
+    background: #339966;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.services-cards ul li a:hover {
+    background: #2a865c;
+    transform: scale(1.05);
+}
+
+/* Adăugare iconițe la link-uri */
+.services-cards ul li a::before {
+    content: "📖 "; /* Emoji carte */
+    margin-right: 5px;
+}
+
+footer {
+    background: linear-gradient(90deg, #339966, #40b484) !important;
+    color: white !important; /* 🔥 FORȚEAZĂ textul să fie alb */
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+footer p {
+    color: white !important; /* 🔥 Asigură-te că și textul <p> e alb */
+    font-weight: bold; /* Opțional, dacă vrei să arate mai bine */
+    font-size: 1rem;
+}
+
+/* Responsivitate pentru Mobil */
+@media (max-width: 768px) {
+    .services-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .services-cards article {
+        padding: 1.5rem;
+    }
+}
