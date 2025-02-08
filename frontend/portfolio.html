@@ -10,11 +10,153 @@
 
 <script src="js/auth.js"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const userId = localStorage.getItem("userId"); // Asumând că userId este stocat după autentificare
+        if (!userId) {
+            alert("Trebuie să fii autentificat!");
+            return;
+        }
+
+        await loadUserFiles(userId);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const userId = localStorage.getItem("userId");
+        const age = parseInt(localStorage.getItem("age"), 10);
+
+        if (!userId) {
+            alert("You must be logged in to access this page.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        // ✅ Dacă utilizatorul are sub 14 ani, ascunde cursurile Over 14
+        if (age < 14) {
+            const over14Courses = document.querySelectorAll(".over14-course");
+            over14Courses.forEach(course => {
+                course.style.display = "none"; // Ascunde cursurile Over 14
+            });
+        }
+    });
+
+
+    async function loadUserFiles() {
+        const userId = localStorage.getItem("userId");
+        if (!userId) {
+            alert("You must be logged in!");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/portfolio/user/${userId}`);
+            const files = await response.json();
+
+            if (!response.ok) {
+                throw new Error(files.error || "Could not load files");
+            }
+
+            if (files.length === 0) {
+                document.getElementById("userFiles").innerHTML = "<p class='no-files'>No files uploaded yet.</p>";
+                return;
+            }
+
+            let content = `
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>File</th>
+                        <th>Type</th>
+                        <th>Upload Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+            files.forEach(file => {
+                // 🔥 Asigură-te că calea este corectă
+                const fileUrl = file.file_path.startsWith("/uploads/")
+                    ? `http://localhost:5000${file.file_path}`
+                    : `http://localhost:5000/uploads/${file.file_path}`;
+
+                content += `<tr>
+                <td>${file.course_title}</td>
+                <td><a href="${fileUrl}" target="_blank">${file.file_path.split('/').pop()}</a></td>
+                <td class="${file.type === 'assignment' ? 'assignment-type' : 'project-type'}">${file.type}</td>
+                <td>${new Date(file.uploaded_at).toLocaleString()}</td>
+            </tr>`;
+            });
+            content += `</tbody></table>`;
+
+            document.getElementById("userFiles").innerHTML = content;
+        } catch (error) {
+            console.error("Error fetching submissions:", error);
+            document.getElementById("userFiles").innerHTML = `<p class="error-message">Error loading files.</p>`;
+        }
+    }
+
+    // ✅ Previzualizare fișier înainte de upload
+    function previewFile(inputId, previewDivId) {
+        const fileInput = document.getElementById(inputId);
+        const previewDiv = document.getElementById(previewDivId);
+
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            previewDiv.innerHTML = `<p>Selected: ${file.name} (${(file.size / 1024).toFixed(2)} KB)</p>`;
+        } else {
+            previewDiv.innerHTML = "";
+        }
+    }
+
+
+    // ✅ Upload fișier
+    async function uploadFile(courseKey, courseId, fileType) {
+        const fileInput = document.getElementById(`file-${courseKey}-${fileType}`);
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert("Selectează un fișier mai întâi!");
+            return;
+        }
+
+        const userId = localStorage.getItem("userId");
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("user_id", userId);
+        formData.append("course_id", courseId);
+        formData.append("type", fileType);
+
+        try {
+            const response = await fetch("http://localhost:5000/api/portfolio/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || "Upload failed");
+            }
+
+            alert("Fișier încărcat cu succes!");
+            document.getElementById(`file-${courseKey}-${fileType}`).value = "";
+            document.getElementById(`preview-${courseKey}-${fileType}`).innerHTML = "";
+
+            previewFile(`file-${courseKey}-${fileType}`, `preview-${courseKey}-${fileType}`); // Resetăm previzualizarea
+            loadUserFiles(userId);
+        } catch (error) {
+            console.error("Eroare la upload:", error);
+            alert("Upload eșuat. Verifică consola pentru detalii.");
+        }
+    }
+</script>
+
 <body>
     <header>
         <nav>
             <ul class="navbar">
-                <li><button onclick="logout()">Logout</button></li>
+                <li id="userStatus"></li> <!-- 🔥 Afișăm statusul utilizatorului -->
+                <li><button id="logoutButton" onclick="logout()" style="display: none;">Logout</button></li>
+                <li><a href="register.html" id="loginButton" style="display: none;">Login</a></li>
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="services.html">Services</a></li>
@@ -27,8 +169,15 @@
     <main>
         <section class="portfolio-section">
             <h1>Your Portfolio</h1>
-            <p>Here you can upload files and complete your own portfolio with the homework that you'll be given, but also your own
+            <p>Here you can upload files and complete your own portfolio with the homework that you'll be given, but
+                also your own
                 personal projects!</p>
+
+            <button onclick="loadUserFiles()">See all my submissions</button>
+
+            <div id="userFiles">
+                <p>Loading...</p>
+            </div>
 
             <div class="portfolio-cards">
                 <!-- 6 Under 14 Courses -->
@@ -41,7 +190,8 @@
                     <button onclick="uploadFile('pho1', 1, 'assignment')">Upload</button>
 
                     <input type="file" id="file-pho1-project" style="display:none;">
-                    <button onclick="document.getElementById('file-pho1-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-pho1-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('pho1', 1, 'project')">Upload</button>
                 </article>
 
@@ -52,7 +202,8 @@
                     <button onclick="uploadFile('pho2', 2, 'assignment')">Upload</button>
 
                     <input type="file" id="file-pho2-project" style="display:none;">
-                    <button onclick="document.getElementById('file-pho2-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-pho2-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('pho2', 2, 'project')">Upload</button>
                 </article>
 
@@ -63,7 +214,8 @@
                     <button onclick="uploadFile('pho3', 3, 'assignment')">Upload</button>
 
                     <input type="file" id="file-pho3-project" style="display:none;">
-                    <button onclick="document.getElementById('file-pho3-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-pho3-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('pho3', 3, 'project')">Upload</button>
                 </article>
 
@@ -74,7 +226,8 @@
                     <button onclick="uploadFile('learn1', 4, 'assignment')">Upload</button>
 
                     <input type="file" id="file-learn1-project" style="display:none;">
-                    <button onclick="document.getElementById('file-learn1-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-learn1-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('learn1', 4, 'project')">Upload</button>
                 </article>
 
@@ -85,7 +238,8 @@
                     <button onclick="uploadFile('learn2', 5, 'assignment')">Upload</button>
 
                     <input type="file" id="file-learn2-project" style="display:none;">
-                    <button onclick="document.getElementById('file-learn2-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-learn2-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('learn2', 5, 'project')">Upload</button>
                 </article>
 
@@ -96,12 +250,13 @@
                     <button onclick="uploadFile('learn3', 6, 'assignment')">Upload</button>
 
                     <input type="file" id="file-learn3-project" style="display:none;">
-                    <button onclick="document.getElementById('file-learn3-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-learn3-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('learn3', 6, 'project')">Upload</button>
                 </article>
             </div>
 
-            <div class="portfolio-cards">
+            <div class="portfolio-cards over14-course">
                 <!-- 6 Over 14 Courses -->
                 <h2>Over 14 Courses</h2>
                 <img src="images/portfolioo14.jpg" alt="Portfolio over 14">
@@ -112,7 +267,8 @@
                     <button onclick="uploadFile('pho4', 7, 'assignment')">Upload</button>
 
                     <input type="file" id="file-pho4-project" style="display:none;">
-                    <button onclick="document.getElementById('file-pho4-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-pho4-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('pho4', 7, 'project')">Upload</button>
                 </article>
 
@@ -123,7 +279,8 @@
                     <button onclick="uploadFile('pho5', 8, 'assignment')">Upload</button>
 
                     <input type="file" id="file-pho5-project" style="display:none;">
-                    <button onclick="document.getElementById('file-pho5-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-pho5-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('pho5', 8, 'project')">Upload</button>
                 </article>
 
@@ -134,7 +291,8 @@
                     <button onclick="uploadFile('pho6', 9, 'assignment')">Upload</button>
 
                     <input type="file" id="file-pho6-project" style="display:none;">
-                    <button onclick="document.getElementById('file-pho6-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-pho6-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('pho6', 9, 'project')">Upload</button>
                 </article>
 
@@ -145,7 +303,8 @@
                     <button onclick="uploadFile('learn4', 10, 'assignment')">Upload</button>
 
                     <input type="file" id="file-learn4-project" style="display:none;">
-                    <button onclick="document.getElementById('file-learn4-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-learn4-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('learn4', 10, 'project')">Upload</button>
                 </article>
 
@@ -156,7 +315,8 @@
                     <button onclick="uploadFile('learn5', 10, 'assignment')">Upload</button>
 
                     <input type="file" id="file-learn5-project" style="display:none;">
-                    <button onclick="document.getElementById('file-learn5-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-learn5-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('learn5', 10, 'project')">Upload</button>
                 </article>
 
@@ -167,19 +327,20 @@
                     <button onclick="uploadFile('learn6', 10, 'assignment')">Upload</button>
 
                     <input type="file" id="file-learn6-project" style="display:none;">
-                    <button onclick="document.getElementById('file-learn6-project').click();">Personal Projects Folder</button>
+                    <button onclick="document.getElementById('file-learn6-project').click();">Personal Projects
+                        Folder</button>
                     <button onclick="uploadFile('learn6', 10, 'project')">Upload</button>
                 </article>
 
             </div>
         </section>
     </main>
-
     <footer>
         <p>&copy; 2025 AI Learning & Photography. All rights reserved.</p>
     </footer>
-
+    
     <script src="js/portfolio.js"></script>
+    <script src="js/footer.js"></script>
 </body>
 
 </html>

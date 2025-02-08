@@ -20,7 +20,6 @@ if (!fs.existsSync(`${uploadFolder}/personal_projects`)) {
 // 📌 Endpoint pentru upload fișiere
 router.post("/upload", async (req, res) => {
     try {
-        // Check if a file was uploaded
         if (!req.files || !req.files.file) {
             return res.status(400).json({ error: "No file uploaded" });
         }
@@ -28,32 +27,35 @@ router.post("/upload", async (req, res) => {
         const file = req.files.file;
         const { user_id, course_id, type } = req.body;
 
-        // Validate required parameters
         if (!user_id || !course_id || !type) {
             return res.status(400).json({ error: "Missing parameters" });
         }
 
-        // Define upload folder
+        // ✅ Verificăm dacă `course_id` există în baza de date
+        const courseCheck = await pool.query("SELECT id FROM courses WHERE id = $1", [course_id]);
+        if (courseCheck.rows.length === 0) {
+            return res.status(400).json({ error: `Course ID ${course_id} does not exist` });
+        }
+
+        // ✅ Definim directorul de upload pe baza tipului de fișier
         const folder = type === "assignment" ? "homework" : "personal_projects";
         const uploadDir = path.join(__dirname, `../uploads/${folder}`);
 
-        // Ensure the upload directory exists
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
         }
 
-        // Define file path
+        // ✅ Creăm un nume de fișier unic și mutăm fișierul
         const filePath = `/uploads/${folder}/${Date.now()}_${file.name}`;
         const fullPath = path.join(__dirname, `../${filePath}`);
 
-        // Move the file to the correct directory
         file.mv(fullPath, async (err) => {
             if (err) {
                 console.error("File move error:", err);
                 return res.status(500).json({ error: "File upload failed" });
             }
 
-            // Insert into database
+            // ✅ Inserăm detaliile fișierului în baza de date
             const query = `
                 INSERT INTO submissions (user_id, course_id, file_path, type)
                 VALUES ($1, $2, $3, $4) RETURNING *;
@@ -74,20 +76,42 @@ router.get("/user/:user_id", async (req, res) => {
     try {
         const { user_id } = req.params;
 
-        const query = `SELECT * FROM submissions WHERE user_id = $1`;
+        if (!user_id || user_id === "null") {
+            console.error("❌ Received invalid user_id:", user_id);
+            return res.status(400).json({ error: "Invalid user_id" });
+        }
+
+        const query = `
+            SELECT submissions.*, courses.title AS course_title
+            FROM submissions
+            JOIN courses ON submissions.course_id = courses.id
+            WHERE submissions.user_id = $1
+            ORDER BY submissions.uploaded_at DESC;
+        `;
         const { rows } = await pool.query(query, [user_id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: "No submissions found" });
+        }
 
         res.json(rows);
     } catch (error) {
-        console.error("Fetch error:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        console.error("❌ Internal Server Error:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 });
 
-// 📌 Endpoint pentru admin să vadă toate fișierele
+
+// 📌 Endpoint pentru admin să vadă toate fișierele încărcate de utilizatori
 router.get("/admin/submissions", async (req, res) => {
     try {
-        const query = `SELECT * FROM submissions`;
+        const query = `
+            SELECT submissions.*, users.first_name, users.last_name, courses.title AS course_title
+            FROM submissions
+            JOIN users ON submissions.user_id = users.id
+            JOIN courses ON submissions.course_id = courses.id
+            ORDER BY submissions.uploaded_at DESC;
+        `;
         const { rows } = await pool.query(query);
 
         res.json(rows);

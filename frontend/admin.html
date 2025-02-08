@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - File Management</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <ul class="navbar">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="admin.html" class="active">Admin Panel</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h1>Admin Panel - All Uploaded Files</h1>
+        <div id="adminFiles">
+            <p>Loading files...</p>
+        </div>
+    </section>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        await loadAllFiles();
+    });
+
+    async function loadAllFiles() {
+        try {
+            const response = await fetch("http://localhost:5000/api/portfolio/admin/submissions");
+            const files = await response.json();
+
+            if (!files.length) {
+                document.getElementById("adminFiles").innerHTML = "<p>No files uploaded.</p>";
+                return;
+            }
+
+            let content = "<table border='1'><tr><th>User</th><th>Course</th><th>File</th><th>Type</th><th>Date</th></tr>";
+            files.forEach(file => {
+                content += `<tr>
+                    <td>${file.first_name} ${file.last_name}</td>
+                    <td>${file.course_title}</td>
+                    <td><a href="${file.file_path}" target="_blank">${file.file_path.split('/').pop()}</a></td>
+                    <td>${file.type}</td>
+                    <td>${new Date(file.uploaded_at).toLocaleString()}</td>
+                </tr>`;
+            });
+            content += "</table>";
+
+            document.getElementById("adminFiles").innerHTML = content;
+        } catch (error) {
+            console.error("Error fetching files:", error);
+        }
+    }
+</script>
+
+</body>
+</html>

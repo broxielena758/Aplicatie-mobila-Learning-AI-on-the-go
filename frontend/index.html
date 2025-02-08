@@ -36,8 +36,9 @@
     <header>
         <nav>
             <ul class="navbar">
+                <li id="userStatus"></li> <!-- 🔥 Afișăm statusul utilizatorului -->
+                <li><button id="logoutButton" onclick="logout()" style="display: none;">Logout</button></li>
                 <li><a href="register.html" class="register-button"><i class="fas fa-user-plus"></i></a></li>
-                <li><button onclick="logout()">Logout</button></li>
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="services.html">Services</a></li>
@@ -122,10 +123,11 @@
 
         </div>
     </main>
-
     <footer>
         <p>&copy; 2025 AI Learning & Photography. All rights reserved.</p>
     </footer>
+    
+    <script src="js/footer.js"></script>
 </body>
 
 </html>

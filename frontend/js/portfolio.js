@@ -67,6 +67,19 @@ async function loadUserSubmissions() {
 }
 
 // 📌 Încarcă automat fișierele utilizatorului la încărcarea paginii
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
     loadUserSubmissions();
+});
+*/
+
+document.addEventListener("DOMContentLoaded", async () => {
+    let userId = localStorage.getItem("userId");
+
+    if (!userId || userId === "null") { 
+        console.error("❌ UserId is null! Ensure you are logged in.");
+        alert("You must be logged in to see your submissions.");
+        return;
+    }
+
+    await loadUserFiles(userId);
 });

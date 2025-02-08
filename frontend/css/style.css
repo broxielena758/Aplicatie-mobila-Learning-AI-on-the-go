@@ -435,8 +435,17 @@ footer {
     color: white;
     text-align: center;
     padding: 1rem;
-    margin-top: auto;
+    width: 100%;
+    opacity: 0; /* ✅ Hidden by default */
+    transform: translateY(100%); /* ✅ Position footer below screen */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it stays above other content */
 }
+
 
 /* Fade In Animation */
 @keyframes fadeIn {
@@ -916,4 +925,111 @@ button:hover {
     background-color: #40b484;
     /* Slightly darker green on hover */
     transform: scale(1.05);
+}
+
+/* 📌 Stilizare generală a tabelului */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* 📌 Stilizare pentru header */
+.styled-table thead tr {
+    background-color: #4CAF50; /* Verde subtil */
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* 📌 Stilizare pentru celulele tabelului */
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 📌 Stilizare alternantă a rândurilor */
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* 📌 Hover pentru rânduri */
+.styled-table tbody tr:hover {
+    background-color: #e0f0e9;
+}
+
+/* 📌 Stilizare pentru assignment și project */
+.assignment-type {
+    color: #D2691E; /* Portocaliu subtil */
+    font-weight: bold;
+}
+
+.project-type {
+    color: #4682B4; /* Albastru subtil */
+    font-weight: bold;
+}
+
+/* 📌 Link-uri pentru fișiere */
+.styled-table a {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.styled-table a:hover {
+    text-decoration: underline;
+}
+
+/* 📌 Mesaj pentru lipsa fișierelor */
+.no-files, .error-message {
+    color: #D2691E;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* 📌 Ensure navbar items (links & buttons) are aligned */
+.navbar {
+    display: flex;
+    align-items: center; /* Ensures everything is perfectly aligned */
+    justify-content: center;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+/* 📌 Standardize logout button appearance */
+.navbar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: inherit;
+    display: inline-flex; /* ✅ Ensures alignment with links */
+    align-items: center; /* ✅ Forces vertical alignment */
+    height: 100%; /* ✅ Matches the height of <a> elements */
+    line-height: normal; /* ✅ Prevents extra padding */
+}
+
+/* 📌 Ensure hover effect matches links */
+.navbar button:hover {
+    background-color: #339966;
+    transform: scale(1.1);
+}
+
+/* 🔥 Extra fix for Safari & Edge */
+.navbar button,
+.navbar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
