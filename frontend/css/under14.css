@@ -7,16 +7,34 @@ body.under14 {
 }
 
 /* Header */
-.navbar {
-    background: linear-gradient(90deg, #ff6f61, #ff7f50);
-    padding: 1rem;
+/* 🔥 HEADER - Acum este complet portocaliu */
+header {
+    background: linear-gradient(90deg, #ff6f61, #ff7f50); /* ✅ Gradient portocaliu */
+    width: 100vw;  /* Asigură că se extinde pe toată lățimea ecranului */
+    height: 60px;  /* Înălțime optimizată */
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    list-style: none;
-    border-radius: 0 0 10px 10px;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 0;
 }
 
+/* 🔥 NAVBAR - Acum este 100% portocaliu, inclusiv marginile */
+.navbar {
+    background: linear-gradient(90deg, #ff6f61, #ff7f50); /* ✅ Fix pentru fundal */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+/* Navbar Links & Button */
 .navbar a, .navbar button {
     color: white;
     text-decoration: none;
@@ -75,7 +93,7 @@ body.under14 {
 
 /* 🔥 Ascunde cursurile inițial */
 .category {
-    display: none; /* 🔥 Inițial, secțiunile de cursuri sunt ascunse */
+    display: none;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -83,7 +101,7 @@ body.under14 {
 
 /* ✅ Când sunt vizibile, le animăm frumos */
 .category.show {
-    display: flex !important; /* 🔥 Asigură că rămân vizibile */
+    display: flex !important;
     opacity: 1;
     transform: translateY(0);
 }
@@ -140,17 +158,52 @@ body.under14 {
     background: #ff5722;
 }
 
-/* 📌 FOOTER pentru Under 14 (mai subțire ca înălțime) */
+/* 📌 FOOTER pentru Under 14 */
 footer {
     background: linear-gradient(90deg, #ff6f61, #ff7f50);
     color: white;
     text-align: center;
-    padding: 0.4rem 0; /* 🔹 Mai mic pe înălțime */
+    padding: 0.4rem 0;
     font-size: 0.9rem;
     font-weight: 500;
-    border-radius: 6px 6px 0 0; /* 🔹 Mai puțin rotunjit */
+    border-radius: 6px 6px 0 0;
     box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     bottom: 0;
     width: 100%;
+}
+
+/* 🔹 Fix pentru header și footer să atingă marginile */
+header, footer {
+    width: 100vw;
+    left: 0;
+    right: 0;
+}
+
+/* 🔹 Elimină margini implicite ale browserului */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 🔹 Asigură că main ocupă spațiul rămas între header și footer */
+main {
+    flex: 1;
+}
+
+/* 🔹 Fix pentru header - Îl lipim de partea de sus a paginii */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* 🔹 Ajustare pentru a nu acoperi conținutul */
+main {
+    padding-top: 70px;
 }

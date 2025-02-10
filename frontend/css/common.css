@@ -1,3 +1,12 @@
+/* 🔥 Importă fontul direct din Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+/* 🔹 Aplică fontul pe TOT site-ul */
+* {
+    font-family: 'Nunito', sans-serif !important;
+}
+
+
 /* ✅ NAVBAR GENERAL - APLICABIL ÎN TOATE PAGINILE */
 .navbar {
     background: linear-gradient(90deg, #007BFF, #0056b3);
@@ -53,4 +62,66 @@
     color: #0056b3;
     border-color: #004c99;
     transform: scale(1.05);
+}
+
+/* 🔥 Fix: Header pe toată lățimea ecranului */
+header {
+    width: 100vw; /* ✅ Asigură că ocupă toată lățimea ecranului */
+    height: 60px; /* ✅ Setează o înălțime mai mică pentru un design elegant */
+    padding: 0.5rem 0; /* ✅ Reduce padding-ul */
+    background: linear-gradient(90deg, #007BFF, #0056b3); /* ✅ Menține gradientul frumos */
+    display: flex;
+    justify-content: center; /* ✅ Aliniere corectă */
+    align-items: center;
+    position: fixed; /* ✅ Face header-ul să rămână fix sus */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* ✅ Se asigură că stă deasupra altor elemente */
+}
+
+/* 🔹 Navbar pe toată lățimea */
+.navbar {
+    display: flex;
+    justify-content: space-around; /* ✅ Distanțează link-urile uniform */
+    width: 100%; /* ✅ Face navbar-ul să ocupe toată lățimea header-ului */
+    padding: 0;
+}
+
+/* 🔥 Fix pentru butoane și link-uri */
+.navbar a, .navbar button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+/* ✅ Fix pentru logo (dacă ai unul) */
+header img {
+    height: 40px;
+}
+
+/* 🔥 Font mai prietenos pentru tot site-ul */
+body {
+    font-family: 'Nunito', sans-serif; /* ✅ Font elegant și modern */
+}
+
+/* 🔹 Importă font-ul din Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+/* ✅ Navbar cu font mai blând */
+.navbar a, .navbar button {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600; /* ✅ Face textul mai puțin agresiv */
+    font-size: 1rem; /* ✅ Ușor mai mic pentru un aspect rafinat */
+}
+
+/* ✅ Hero section */
+.hero h1, .hero p {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700; /* ✅ Text clar, dar nu agresiv */
+}
+
+/* ✅ Footer */
+footer {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
 }

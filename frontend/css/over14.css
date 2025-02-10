@@ -154,3 +154,38 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+/* 🔹 Fix pentru header și footer să atingă marginile */
+header, footer {
+    width: 100vw;  /* Asigură că acoperă întreaga lățime a ecranului */
+    left: 0;
+    right: 0;
+}
+
+/* 🔹 Elimină margini implicite ale browserului */
+body {
+    margin: 0;  /* Elimină marginea default */
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Face ca footer-ul să rămână jos */
+}
+
+/* 🔹 Asigură că main ocupă spațiul rămas între header și footer */
+main {
+    flex: 1; /* Face ca secțiunea principală să ocupe spațiul liber */
+}
+
+/* 🔹 Fix pentru header - Îl lipim de partea de sus a paginii */
+header {
+    position: fixed;  /* Îl face să rămână sus, indiferent de scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;  /* Asigură că stă deasupra altor elemente */
+}
+
+/* 🔹 Ajustare pentru a nu acoperi conținutul */
+main {
+    padding-top: 70px; /* Ajustează înălțimea ca să nu fie acoperit de header */
+}
