@@ -7,6 +7,9 @@ const path = require("path");
 // Import route files
 const authRoutes = require("./routes/authRoutes");
 const portfolioRoutes = require("./routes/portfolioRoutes");
+const contactRoutes = require('./routes/contactRoutes');
+
+
 
 const app = express();
 
@@ -30,6 +33,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/portfolio", portfolioRoutes);
+app.use('/api', contactRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;

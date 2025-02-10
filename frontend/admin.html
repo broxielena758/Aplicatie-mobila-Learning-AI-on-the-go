@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - File Management</title>
+    <title>Admin - File & Contact Management</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -25,11 +25,19 @@
             <p>Loading files...</p>
         </div>
     </section>
+
+    <section>
+        <h1>Admin Panel - Contact Messages</h1>
+        <div id="adminMessages">
+            <p>Loading messages...</p>
+        </div>
+    </section>
 </main>
 
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
         await loadAllFiles();
+        await loadAllMessages();
     });
 
     async function loadAllFiles() {
@@ -57,6 +65,36 @@
             document.getElementById("adminFiles").innerHTML = content;
         } catch (error) {
             console.error("Error fetching files:", error);
+            document.getElementById("adminFiles").innerHTML = "<p>Error loading files.</p>";
+        }
+    }
+
+    async function loadAllMessages() {
+        try {
+            const response = await fetch("http://localhost:5000/api/messages");
+            const messages = await response.json();
+
+            if (!messages.length) {
+                document.getElementById("adminMessages").innerHTML = "<p>No messages received.</p>";
+                return;
+            }
+
+            let content = "<table border='1'><tr><th>ID</th><th>Name</th><th>Email</th><th>Message</th><th>Submitted At</th></tr>";
+            messages.forEach(msg => {
+                content += `<tr>
+                    <td>${msg.id}</td>
+                    <td>${msg.name}</td>
+                    <td>${msg.email}</td>
+                    <td>${msg.message}</td>
+                    <td>${new Date(msg.submitted_at).toLocaleString()}</td>
+                </tr>`;
+            });
+            content += "</table>";
+
+            document.getElementById("adminMessages").innerHTML = content;
+        } catch (error) {
+            console.error("Error fetching messages:", error);
+            document.getElementById("adminMessages").innerHTML = "<p>Error loading messages.</p>";
         }
     }
 </script>
