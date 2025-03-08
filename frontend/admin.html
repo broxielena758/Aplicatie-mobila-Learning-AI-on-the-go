@@ -50,22 +50,108 @@
                 return;
             }
 
-            let content = "<table border='1'><tr><th>User</th><th>Course</th><th>File</th><th>Type</th><th>Date</th></tr>";
-            files.forEach(file => {
-                content += `<tr>
-                    <td>${file.first_name} ${file.last_name}</td>
-                    <td>${file.course_title}</td>
-                    <td><a href="${file.file_path}" target="_blank">${file.file_path.split('/').pop()}</a></td>
-                    <td>${file.type}</td>
-                    <td>${new Date(file.uploaded_at).toLocaleString()}</td>
-                </tr>`;
-            });
-            content += "</table>";
+            let content = `
+                <table border="1">
+                    <tr>
+                        <th>User</th>
+                        <th>Course</th>
+                        <th>File</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Grade</th>
+                        <th>Feedback</th>
+                        <th>Actions</th>
+                    </tr>`;
 
+            files.forEach(file => {
+                content += `
+                    <tr>
+                        <td>${file.first_name} ${file.last_name}</td>
+                        <td>${file.course_title}</td>
+                        <td><a href="${file.file_path}" target="_blank">${file.file_path.split('/').pop()}</a></td>
+                        <td>${file.type}</td>
+                        <td>${new Date(file.uploaded_at).toLocaleString()}</td>
+                        
+                        <td>
+                            ${file.type === 'assignment' ? `
+                                <input type="number" id="grade-${file.id}" value="${file.grade || ''}" min="1" max="10">
+                            ` : '-'}
+                        </td>
+                        
+                        <td>
+                            ${file.type === 'project' ? `
+                                <textarea id="feedback-${file.id}" placeholder="Enter feedback">${file.feedback || ''}</textarea>
+                            ` : '-'}
+                        </td>
+                        
+                        <td>
+                            ${file.type === 'assignment' ? `
+                                <button onclick="submitGrade(${file.id})">Submit Grade</button>
+                            ` : ''}
+                            ${file.type === 'project' ? `
+                                <button onclick="submitFeedback(${file.id})">Submit Feedback</button>
+                            ` : ''}
+                        </td>
+                    </tr>`;
+            });
+
+            content += `</table>`;
             document.getElementById("adminFiles").innerHTML = content;
         } catch (error) {
             console.error("Error fetching files:", error);
             document.getElementById("adminFiles").innerHTML = "<p>Error loading files.</p>";
+        }
+    }
+
+    async function submitGrade(submissionId) {
+        const grade = document.getElementById(`grade-${submissionId}`).value;
+
+        if (!grade || grade < 1 || grade > 10) {
+            alert("Grade must be between 1 and 10.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/portfolio/grade/${submissionId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ grade })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert("Grade submitted successfully!");
+            } else {
+                alert("Failed to submit grade: " + result.error);
+            }
+        } catch (error) {
+            console.error("Error submitting grade:", error);
+        }
+    }
+
+    async function submitFeedback(submissionId) {
+        const feedback = document.getElementById(`feedback-${submissionId}`).value;
+
+        if (!feedback || feedback.length < 5) {
+            alert("Feedback must be at least 5 characters long.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/portfolio/feedback/${submissionId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ feedback })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert("Feedback submitted successfully!");
+            } else {
+                alert("Failed to submit feedback: " + result.error);
+            }
+        } catch (error) {
+            console.error("Error submitting feedback:", error);
         }
     }
 
@@ -79,18 +165,28 @@
                 return;
             }
 
-            let content = "<table border='1'><tr><th>ID</th><th>Name</th><th>Email</th><th>Message</th><th>Submitted At</th></tr>";
-            messages.forEach(msg => {
-                content += `<tr>
-                    <td>${msg.id}</td>
-                    <td>${msg.name}</td>
-                    <td>${msg.email}</td>
-                    <td>${msg.message}</td>
-                    <td>${new Date(msg.submitted_at).toLocaleString()}</td>
-                </tr>`;
-            });
-            content += "</table>";
+            let content = `
+                <table border="1">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>Submitted At</th>
+                    </tr>`;
 
+            messages.forEach(msg => {
+                content += `
+                    <tr>
+                        <td>${msg.id}</td>
+                        <td>${msg.name}</td>
+                        <td>${msg.email}</td>
+                        <td>${msg.message}</td>
+                        <td>${new Date(msg.submitted_at).toLocaleString()}</td>
+                    </tr>`;
+            });
+
+            content += `</table>`;
             document.getElementById("adminMessages").innerHTML = content;
         } catch (error) {
             console.error("Error fetching messages:", error);

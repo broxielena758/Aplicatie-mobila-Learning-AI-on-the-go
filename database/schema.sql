@@ -23,7 +23,9 @@ CREATE TABLE submissions (
     course_id INT REFERENCES courses(id) ON DELETE CASCADE,
     file_path TEXT NOT NULL,
     type VARCHAR(20) NOT NULL CHECK (type IN ('assignment', 'project')),
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    grade INT CHECK (grade BETWEEN 1 AND 10), -- ✅ Added column for grading homework
+    feedback TEXT -- ✅ Added column for project feedback
 );
 
 CREATE TABLE user_courses (

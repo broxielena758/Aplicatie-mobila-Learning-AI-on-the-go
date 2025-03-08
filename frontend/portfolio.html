@@ -11,14 +11,14 @@
 
 <script src="js/auth.js"></script>
 
+
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
-        const userId = localStorage.getItem("userId"); // Asumând că userId este stocat după autentificare
+        const userId = localStorage.getItem("userId"); 
         if (!userId) {
             alert("Trebuie să fii autentificat!");
             return;
         }
-
         await loadUserFiles(userId);
     });
 
@@ -32,15 +32,13 @@
             return;
         }
 
-        // ✅ Dacă utilizatorul are sub 14 ani, ascunde cursurile Over 14
         if (age < 14) {
             const over14Courses = document.querySelectorAll(".over14-course");
             over14Courses.forEach(course => {
-                course.style.display = "none"; // Ascunde cursurile Over 14
+                course.style.display = "none"; 
             });
         }
     });
-
 
     async function loadUserFiles() {
         const userId = localStorage.getItem("userId");
@@ -70,12 +68,13 @@
                         <th>File</th>
                         <th>Type</th>
                         <th>Upload Date</th>
+                        <th>Grade</th>
+                        <th>Feedback</th>
                     </tr>
                 </thead>
                 <tbody>
         `;
             files.forEach(file => {
-                // 🔥 Asigură-te că calea este corectă
                 const fileUrl = file.file_path.startsWith("/uploads/")
                     ? `http://localhost:5000${file.file_path}`
                     : `http://localhost:5000/uploads/${file.file_path}`;
@@ -85,6 +84,8 @@
                 <td><a href="${fileUrl}" target="_blank">${file.file_path.split('/').pop()}</a></td>
                 <td class="${file.type === 'assignment' ? 'assignment-type' : 'project-type'}">${file.type}</td>
                 <td>${new Date(file.uploaded_at).toLocaleString()}</td>
+                <td>${file.grade ? file.grade : "Not graded yet"}</td>
+                <td>${file.feedback ? file.feedback : "No feedback yet"}</td>
             </tr>`;
             });
             content += `</tbody></table>`;
@@ -96,57 +97,96 @@
         }
     }
 
-    // ✅ Previzualizare fișier înainte de upload
-    function previewFile(inputId, previewDivId) {
-        const fileInput = document.getElementById(inputId);
-        const previewDiv = document.getElementById(previewDivId);
+    async function submitGrade(submissionId) {
+        const gradeInput = document.getElementById(`grade-input-${submissionId}`).value;
 
-        if (fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            previewDiv.innerHTML = `<p>Selected: ${file.name} (${(file.size / 1024).toFixed(2)} KB)</p>`;
-        } else {
-            previewDiv.innerHTML = "";
-        }
-    }
-
-
-    // ✅ Upload fișier
-    async function uploadFile(courseKey, courseId, fileType) {
-        const fileInput = document.getElementById(`file-${courseKey}-${fileType}`);
-        const file = fileInput.files[0];
-
-        if (!file) {
-            alert("Selectează un fișier mai întâi!");
+        if (gradeInput < 1 || gradeInput > 10) {
+            alert("Grade must be between 1 and 10!");
             return;
         }
 
-        const userId = localStorage.getItem("userId");
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("user_id", userId);
-        formData.append("course_id", courseId);
-        formData.append("type", fileType);
-
         try {
-            const response = await fetch("http://localhost:5000/api/portfolio/upload", {
+            const response = await fetch(`http://localhost:5000/api/portfolio/grade/${submissionId}`, {
                 method: "POST",
-                body: formData
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ grade: gradeInput })
             });
 
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error || "Upload failed");
-            }
-
-            alert("Fișier încărcat cu succes!");
-            document.getElementById(`file-${courseKey}-${fileType}`).value = "";
-            document.getElementById(`preview-${courseKey}-${fileType}`).innerHTML = "";
-
-            previewFile(`file-${courseKey}-${fileType}`, `preview-${courseKey}-${fileType}`); // Resetăm previzualizarea
-            loadUserFiles(userId);
+            const result = await response.json();
+            alert(result.message);
+            loadUserFiles();
         } catch (error) {
-            console.error("Eroare la upload:", error);
-            alert("Upload eșuat. Verifică consola pentru detalii.");
+            console.error("Error submitting grade:", error);
+            alert("Failed to submit grade.");
+        }
+    }
+
+    async function submitFeedback(submissionId) {
+        const feedbackText = document.getElementById(`feedback-input-${submissionId}`).value;
+
+        if (feedbackText.length < 5) {
+            alert("Feedback must be at least 5 characters long.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/portfolio/feedback/${submissionId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ feedback: feedbackText })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            loadUserFiles();
+        } catch (error) {
+            console.error("Error submitting feedback:", error);
+            alert("Failed to submit feedback.");
+        }
+    }
+
+    async function loadAllSubmissions() {
+        try {
+            const response = await fetch("http://localhost:5000/api/portfolio/admin/submissions");
+            const submissions = await response.json();
+
+            let content = `
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Course</th>
+                        <th>File</th>
+                        <th>Type</th>
+                        <th>Grade</th>
+                        <th>Feedback</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+            submissions.forEach(sub => {
+                const fileUrl = `http://localhost:5000${sub.file_path}`;
+                content += `<tr>
+                <td>${sub.first_name} ${sub.last_name}</td>
+                <td>${sub.course_title}</td>
+                <td><a href="${fileUrl}" target="_blank">View File</a></td>
+                <td>${sub.type}</td>
+                <td>${sub.grade ? sub.grade : `<input type="number" id="grade-input-${sub.id}" min="1" max="10">`}</td>
+                <td>${sub.feedback ? sub.feedback : `<input type="text" id="feedback-input-${sub.id}">`}</td>
+                <td>
+                    ${sub.type === "assignment" ? `<button onclick="submitGrade(${sub.id})">Submit Grade</button>` : ""}
+                    ${sub.type === "project" ? `<button onclick="submitFeedback(${sub.id})">Submit Feedback</button>` : ""}
+                </td>
+            </tr>`;
+            });
+
+            content += `</tbody></table>`;
+            document.getElementById("adminSubmissions").innerHTML = content;
+        } catch (error) {
+            console.error("Error fetching admin submissions:", error);
+            document.getElementById("adminSubmissions").innerHTML = `<p class="error-message">Error loading submissions.</p>`;
         }
     }
 </script>
