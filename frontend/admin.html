@@ -1,198 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - File & Contact Management</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - File & Contact Management</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
 <header>
-    <nav>
-        <ul class="navbar">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="portfolio.html">Portfolio</a></li>
-            <li><a href="admin.html" class="active">Admin Panel</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul class="navbar">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="admin.html" class="active">Admin Panel</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main>
-    <section>
-        <h1>Admin Panel - All Uploaded Files</h1>
-        <div id="adminFiles">
-            <p>Loading files...</p>
-        </div>
-    </section>
+  <section>
+    <h1>Admin Panel - All Uploaded Files</h1>
+    <div id="adminFiles">
+      <p>Loading files...</p>
+    </div>
+  </section>
 
-    <section>
-        <h1>Admin Panel - Contact Messages</h1>
-        <div id="adminMessages">
-            <p>Loading messages...</p>
-        </div>
-    </section>
+  <section>
+    <h1>Admin Panel - Contact Messages</h1>
+    <div id="adminMessages">
+      <p>Loading messages...</p>
+    </div>
+  </section>
+
+  <section>
+    <h1>Admin Panel - Contest Submissions</h1>
+    <div id="adminContests">
+      <p>Loading contest submissions...</p>
+    </div>
+  </section>
 </main>
 
 <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-        await loadAllFiles();
-        await loadAllMessages();
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadAllFiles();
+  await loadAllMessages();
+  await loadAllContests();
+});
+
+// --------- FILE SUBMISSIONS ---------
+async function loadAllFiles() {
+  try {
+    const response = await fetch("http://localhost:5000/api/portfolio/admin/submissions");
+    const files = await response.json();
+
+    if (!files.length) {
+      document.getElementById("adminFiles").innerHTML = "<p>No files uploaded.</p>";
+      return;
+    }
+
+    let content = `
+      <table border="1">
+        <tr>
+          <th>User</th>
+          <th>Course</th>
+          <th>File</th>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Grade</th>
+          <th>Feedback</th>
+          <th>Actions</th>
+        </tr>`;
+
+    files.forEach(file => {
+      content += `
+        <tr>
+          <td>${file.first_name} ${file.last_name}</td>
+          <td>${file.course_title}</td>
+          <td><a href="${file.file_path}" target="_blank">${file.file_path.split('/').pop()}</a></td>
+          <td>${file.type}</td>
+          <td>${new Date(file.uploaded_at).toLocaleString()}</td>
+          <td>${file.type === 'assignment' ? `<input type="number" id="grade-${file.id}" value="${file.grade || ''}" min="1" max="10">` : '-'}</td>
+          <td>${file.type === 'project' ? `<textarea id="feedback-${file.id}" placeholder="Enter feedback">${file.feedback || ''}</textarea>` : '-'}</td>
+          <td>
+            ${file.type === 'assignment' ? `<button onclick="submitGrade(${file.id})">Submit Grade</button>` : ''}
+            ${file.type === 'project' ? `<button onclick="submitFeedback(${file.id})">Submit Feedback</button>` : ''}
+          </td>
+        </tr>`;
     });
 
-    async function loadAllFiles() {
-        try {
-            const response = await fetch("http://localhost:5000/api/portfolio/admin/submissions");
-            const files = await response.json();
+    content += `</table>`;
+    document.getElementById("adminFiles").innerHTML = content;
+  } catch (error) {
+    console.error("Error fetching files:", error);
+    document.getElementById("adminFiles").innerHTML = "<p>Error loading files.</p>";
+  }
+}
 
-            if (!files.length) {
-                document.getElementById("adminFiles").innerHTML = "<p>No files uploaded.</p>";
-                return;
-            }
+async function submitGrade(submissionId) {
+  const grade = document.getElementById(`grade-${submissionId}`).value;
 
-            let content = `
-                <table border="1">
-                    <tr>
-                        <th>User</th>
-                        <th>Course</th>
-                        <th>File</th>
-                        <th>Type</th>
-                        <th>Date</th>
-                        <th>Grade</th>
-                        <th>Feedback</th>
-                        <th>Actions</th>
-                    </tr>`;
+  if (!grade || grade < 1 || grade > 10) {
+    alert("Grade must be between 1 and 10.");
+    return;
+  }
 
-            files.forEach(file => {
-                content += `
-                    <tr>
-                        <td>${file.first_name} ${file.last_name}</td>
-                        <td>${file.course_title}</td>
-                        <td><a href="${file.file_path}" target="_blank">${file.file_path.split('/').pop()}</a></td>
-                        <td>${file.type}</td>
-                        <td>${new Date(file.uploaded_at).toLocaleString()}</td>
-                        
-                        <td>
-                            ${file.type === 'assignment' ? `
-                                <input type="number" id="grade-${file.id}" value="${file.grade || ''}" min="1" max="10">
-                            ` : '-'}
-                        </td>
-                        
-                        <td>
-                            ${file.type === 'project' ? `
-                                <textarea id="feedback-${file.id}" placeholder="Enter feedback">${file.feedback || ''}</textarea>
-                            ` : '-'}
-                        </td>
-                        
-                        <td>
-                            ${file.type === 'assignment' ? `
-                                <button onclick="submitGrade(${file.id})">Submit Grade</button>
-                            ` : ''}
-                            ${file.type === 'project' ? `
-                                <button onclick="submitFeedback(${file.id})">Submit Feedback</button>
-                            ` : ''}
-                        </td>
-                    </tr>`;
-            });
+  try {
+    const response = await fetch(`http://localhost:5000/api/portfolio/grade/${submissionId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ grade })
+    });
 
-            content += `</table>`;
-            document.getElementById("adminFiles").innerHTML = content;
-        } catch (error) {
-            console.error("Error fetching files:", error);
-            document.getElementById("adminFiles").innerHTML = "<p>Error loading files.</p>";
-        }
+    const result = await response.json();
+    alert(result.message || "Grade submitted.");
+  } catch (error) {
+    console.error("Error submitting grade:", error);
+  }
+}
+
+async function submitFeedback(submissionId) {
+  const feedback = document.getElementById(`feedback-${submissionId}`).value;
+
+  if (!feedback || feedback.length < 5) {
+    alert("Feedback must be at least 5 characters long.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:5000/api/portfolio/feedback/${submissionId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ feedback })
+    });
+
+    const result = await response.json();
+    alert(result.message || "Feedback submitted.");
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+  }
+}
+
+// --------- CONTACT MESSAGES ---------
+async function loadAllMessages() {
+  try {
+    const response = await fetch("http://localhost:5000/api/messages");
+    const messages = await response.json();
+
+    if (!messages.length) {
+      document.getElementById("adminMessages").innerHTML = "<p>No messages received.</p>";
+      return;
     }
 
-    async function submitGrade(submissionId) {
-        const grade = document.getElementById(`grade-${submissionId}`).value;
+    let content = `
+      <table border="1">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Submitted At</th>
+        </tr>`;
 
-        if (!grade || grade < 1 || grade > 10) {
-            alert("Grade must be between 1 and 10.");
-            return;
-        }
+    messages.forEach(msg => {
+      content += `
+        <tr>
+          <td>${msg.id}</td>
+          <td>${msg.name}</td>
+          <td>${msg.email}</td>
+          <td>${msg.message}</td>
+          <td>${new Date(msg.submitted_at).toLocaleString()}</td>
+        </tr>`;
+    });
 
-        try {
-            const response = await fetch(`http://localhost:5000/api/portfolio/grade/${submissionId}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ grade })
-            });
+    content += `</table>`;
+    document.getElementById("adminMessages").innerHTML = content;
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    document.getElementById("adminMessages").innerHTML = "<p>Error loading messages.</p>";
+  }
+}
 
-            const result = await response.json();
-            if (response.ok) {
-                alert("Grade submitted successfully!");
-            } else {
-                alert("Failed to submit grade: " + result.error);
-            }
-        } catch (error) {
-            console.error("Error submitting grade:", error);
-        }
+// --------- CONTEST SUBMISSIONS ---------
+async function loadAllContests() {
+  try {
+    const response = await fetch("http://localhost:5000/api/contest/admin/submissions");
+    const entries = await response.json();
+
+    if (!entries.length) {
+      document.getElementById("adminContests").innerHTML = "<p>No contest submissions.</p>";
+      return;
     }
 
-    async function submitFeedback(submissionId) {
-        const feedback = document.getElementById(`feedback-${submissionId}`).value;
+    let content = `
+      <table border="1">
+        <tr>
+          <th>User</th>
+          <th>Contest</th>
+          <th>File</th>
+          <th>Grade</th>
+          <th>Feedback</th>
+          <th>Actions</th>
+        </tr>`;
 
-        if (!feedback || feedback.length < 5) {
-            alert("Feedback must be at least 5 characters long.");
-            return;
-        }
+    entries.forEach(entry => {
+      content += `
+        <tr>
+          <td>${entry.first_name} ${entry.last_name}</td>
+          <td>${entry.contest_title}</td>
+          <td><a href="${entry.file_path}" target="_blank">${entry.file_path.split('/').pop()}</a></td>
+          <td><input type="number" id="grade-${entry.id}" value="${entry.grade || ''}" min="1" max="10"></td>
+          <td><textarea id="feedback-${entry.id}">${entry.feedback || ''}</textarea></td>
+          <td><button onclick="submitContestGrade(${entry.id})">Submit</button></td>
+        </tr>`;
+    });
 
-        try {
-            const response = await fetch(`http://localhost:5000/api/portfolio/feedback/${submissionId}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ feedback })
-            });
+    content += `</table>`;
+    document.getElementById("adminContests").innerHTML = content;
+  } catch (error) {
+    console.error("Error loading contest submissions:", error);
+    document.getElementById("adminContests").innerHTML = "<p>Error loading contest data.</p>";
+  }
+}
 
-            const result = await response.json();
-            if (response.ok) {
-                alert("Feedback submitted successfully!");
-            } else {
-                alert("Failed to submit feedback: " + result.error);
-            }
-        } catch (error) {
-            console.error("Error submitting feedback:", error);
-        }
-    }
+async function submitContestGrade(entryId) {
+  const grade = document.getElementById(`grade-${entryId}`).value;
+  const feedback = document.getElementById(`feedback-${entryId}`).value;
 
-    async function loadAllMessages() {
-        try {
-            const response = await fetch("http://localhost:5000/api/messages");
-            const messages = await response.json();
+  if (!grade || grade < 1 || grade > 10) {
+    alert("Grade must be between 1 and 10.");
+    return;
+  }
 
-            if (!messages.length) {
-                document.getElementById("adminMessages").innerHTML = "<p>No messages received.</p>";
-                return;
-            }
+  try {
+    const response = await fetch(`http://localhost:5000/api/contest/grade/${entryId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ grade, feedback })
+    });
 
-            let content = `
-                <table border="1">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Message</th>
-                        <th>Submitted At</th>
-                    </tr>`;
-
-            messages.forEach(msg => {
-                content += `
-                    <tr>
-                        <td>${msg.id}</td>
-                        <td>${msg.name}</td>
-                        <td>${msg.email}</td>
-                        <td>${msg.message}</td>
-                        <td>${new Date(msg.submitted_at).toLocaleString()}</td>
-                    </tr>`;
-            });
-
-            content += `</table>`;
-            document.getElementById("adminMessages").innerHTML = content;
-        } catch (error) {
-            console.error("Error fetching messages:", error);
-            document.getElementById("adminMessages").innerHTML = "<p>Error loading messages.</p>";
-        }
-    }
+    const result = await response.json();
+    alert(result.message);
+  } catch (error) {
+    console.error("Error submitting contest grade:", error);
+    alert("Failed to submit contest grade.");
+  }
+}
 </script>
 
 </body>

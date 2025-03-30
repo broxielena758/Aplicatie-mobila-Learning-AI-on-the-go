@@ -1,0 +1,56 @@
+<h1>Available Contests</h1>
+<div id="contestList"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const userId = localStorage.getItem("user_id");
+
+    if (!userId) {
+        alert("You must be logged in!");
+        window.location.href = "login.html";
+        return;
+    }
+
+    const response = await fetch(`http://localhost:5000/api/contest/available/${userId}`);
+    const contests = await response.json();
+
+    let content = `<ul>`;
+    contests.forEach(contest => {
+        content += `
+            <li>
+                <h3>${contest.title}</h3>
+                <p>Category: ${contest.category}</p>
+                <p>Age Group: ${contest.age_group}</p>
+                <input type="file" id="file-${contest.id}">
+                <button onclick="submitEntry(${contest.id})">Submit Entry</button>
+            </li>
+        `;
+    });
+    content += `</ul>`;
+
+    document.getElementById("contestList").innerHTML = content;
+});
+
+async function submitEntry(contestId) {
+    const userId = localStorage.getItem("user_id");
+    const fileInput = document.getElementById(`file-${contestId}`);
+
+    if (!fileInput.files.length) {
+        alert("Please select a file to upload.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+    formData.append("user_id", userId);
+    formData.append("contest_id", contestId);
+
+    const response = await fetch("http://localhost:5000/api/contest/submit", {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.json();
+    alert(result.message);
+}
+</script>

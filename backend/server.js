@@ -4,38 +4,36 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const path = require("path");
 
-// Import route files
-const authRoutes = require("./routes/authRoutes");
-const portfolioRoutes = require("./routes/portfolioRoutes");
-const contactRoutes = require('./routes/contactRoutes');
-
-
-
 const app = express();
 
-// Enable CORS with proper settings
+// ✅ Route imports
+const authRoutes = require("./routes/authRoutes");
+const portfolioRoutes = require("./routes/portfolioRoutes");
+const contactRoutes = require("./routes/contactRoutes");
+const contestRoutes = require("./routes/contestRoutes");
+
+
+// ✅ Middleware
 app.use(cors({
-    origin: "*",  // Change this to your frontend URL in production
+    origin: "*",  // In production, replace with your frontend domain
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"]
 }));
 
-// Enable file uploads (Express-FileUpload middleware)
 app.use(fileUpload());
-
-// Body parser middleware (Handles JSON and URL-encoded data)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve uploaded files statically
+// ✅ Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+// ✅ Route use
 app.use("/api/auth", authRoutes);
 app.use("/api/portfolio", portfolioRoutes);
-app.use('/api', contactRoutes);
+app.use("/api", contactRoutes);
+app.use("/api/contest", contestRoutes); // <-- Now this will work
 
-// Start the server
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`✅ Server running on http://localhost:${PORT}`);
