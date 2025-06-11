@@ -1,251 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <link rel="icon" type="image/png" href="images/logo.png">
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - File & Contact Management</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body>
-<header>
-  <nav>
-    <ul class="navbar">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="portfolio.html">Portfolio</a></li>
-      <li><a href="admin.html" class="active">Admin Panel</a></li>
-    </ul>
+
+<body class="bg-light">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">AI Learning & Photography</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">Admin Panel</a></li>
+        </ul>
+      </div>
+    </div>
   </nav>
-</header>
 
-<main>
-  <section>
-    <h1>Admin Panel - All Uploaded Files</h1>
-    <div id="adminFiles">
-      <p>Loading files...</p>
-    </div>
-  </section>
+  <div class="container">
+    <!-- Uploaded Files Section -->
+    <section class="mb-5">
+      <h2 class="text-success">📁 Uploaded Files</h2>
+      <div id="adminFiles" class="table-responsive">
+        <p>Loading files...</p>
+      </div>
+    </section>
 
-  <section>
-    <h1>Admin Panel - Contact Messages</h1>
-    <div id="adminMessages">
-      <p>Loading messages...</p>
-    </div>
-  </section>
+    <!-- Contact Messages Section -->
+    <section class="mb-5">
+      <h2 class="text-success">📬 Contact Messages</h2>
+      <div id="adminMessages" class="table-responsive">
+        <p>Loading messages...</p>
+      </div>
+    </section>
 
-  <section>
-    <h1>Admin Panel - Contest Submissions</h1>
-    <div id="adminContests">
-      <p>Loading contest submissions...</p>
-    </div>
-  </section>
-</main>
+    <!-- Contest Submissions Section -->
+    <section class="mb-5">
+      <h2 class="text-success">🏆 Contest Submissions</h2>
 
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadAllFiles();
-  await loadAllMessages();
-  await loadAllContests();
-});
+      <div class="mb-3">
+        <label for="contestFilter" class="form-label">Filter by Contest</label>
+        <select id="contestFilter" class="form-select" onchange="loadAllContests(this.value)">
+          <option value="">All Contests</option>
+        </select>
+      </div>
 
-// --------- FILE SUBMISSIONS ---------
-async function loadAllFiles() {
-  try {
-    const response = await fetch("http://localhost:5000/api/portfolio/admin/submissions");
-    const files = await response.json();
+      <div id="adminContests" class="table-responsive">
+        <p>Loading contest submissions...</p>
+      </div>
+    </section>
+  </div>
 
-    if (!files.length) {
-      document.getElementById("adminFiles").innerHTML = "<p>No files uploaded.</p>";
-      return;
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await loadAllFiles();
+      await loadAllMessages();
+      await loadContestList();
+      await loadAllContests();
+    });
+
+    // FIXED: Helper function to construct proper file URLs
+    function getFileUrl(filePath) {
+      if (!filePath) return '';
+
+      console.log('Original file path:', filePath);
+
+      // If the path already starts with 'uploads/', use it directly
+      // Otherwise, add 'uploads/' prefix
+      let cleanPath = filePath;
+      if (filePath.startsWith('uploads/')) {
+        // Path already has uploads/, just use it as-is
+        cleanPath = filePath;
+      } else if (filePath.startsWith('/uploads/')) {
+        // Remove leading slash
+        cleanPath = filePath.substring(1);
+      } else {
+        // Add uploads/ prefix
+        cleanPath = 'uploads/' + filePath;
+      }
+
+      // Convert backslashes to forward slashes for URLs
+      cleanPath = cleanPath.replace(/\\/g, '/');
+
+      // Construct the full URL - DON'T add uploads/ again!
+      const finalUrl = `http://localhost:5000/${cleanPath}`;
+      console.log('Constructed URL:', finalUrl);
+
+      return finalUrl;
     }
 
-    let content = `
-      <table border="1">
-        <tr>
-          <th>User</th>
-          <th>Course</th>
-          <th>File</th>
-          <th>Type</th>
-          <th>Date</th>
-          <th>Grade</th>
-          <th>Feedback</th>
-          <th>Actions</th>
-        </tr>`;
-
-    files.forEach(file => {
-      content += `
-        <tr>
-          <td>${file.first_name} ${file.last_name}</td>
-          <td>${file.course_title}</td>
-          <td><a href="${file.file_path}" target="_blank">${file.file_path.split('/').pop()}</a></td>
-          <td>${file.type}</td>
-          <td>${new Date(file.uploaded_at).toLocaleString()}</td>
-          <td>${file.type === 'assignment' ? `<input type="number" id="grade-${file.id}" value="${file.grade || ''}" min="1" max="10">` : '-'}</td>
-          <td>${file.type === 'project' ? `<textarea id="feedback-${file.id}" placeholder="Enter feedback">${file.feedback || ''}</textarea>` : '-'}</td>
-          <td>
-            ${file.type === 'assignment' ? `<button onclick="submitGrade(${file.id})">Submit Grade</button>` : ''}
-            ${file.type === 'project' ? `<button onclick="submitFeedback(${file.id})">Submit Feedback</button>` : ''}
-          </td>
-        </tr>`;
-    });
-
-    content += `</table>`;
-    document.getElementById("adminFiles").innerHTML = content;
-  } catch (error) {
-    console.error("Error fetching files:", error);
-    document.getElementById("adminFiles").innerHTML = "<p>Error loading files.</p>";
-  }
-}
-
-async function submitGrade(submissionId) {
-  const grade = document.getElementById(`grade-${submissionId}`).value;
-
-  if (!grade || grade < 1 || grade > 10) {
-    alert("Grade must be between 1 and 10.");
-    return;
-  }
-
-  try {
-    const response = await fetch(`http://localhost:5000/api/portfolio/grade/${submissionId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ grade })
-    });
-
-    const result = await response.json();
-    alert(result.message || "Grade submitted.");
-  } catch (error) {
-    console.error("Error submitting grade:", error);
-  }
-}
-
-async function submitFeedback(submissionId) {
-  const feedback = document.getElementById(`feedback-${submissionId}`).value;
-
-  if (!feedback || feedback.length < 5) {
-    alert("Feedback must be at least 5 characters long.");
-    return;
-  }
-
-  try {
-    const response = await fetch(`http://localhost:5000/api/portfolio/feedback/${submissionId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ feedback })
-    });
-
-    const result = await response.json();
-    alert(result.message || "Feedback submitted.");
-  } catch (error) {
-    console.error("Error submitting feedback:", error);
-  }
-}
-
-// --------- CONTACT MESSAGES ---------
-async function loadAllMessages() {
-  try {
-    const response = await fetch("http://localhost:5000/api/messages");
-    const messages = await response.json();
-
-    if (!messages.length) {
-      document.getElementById("adminMessages").innerHTML = "<p>No messages received.</p>";
-      return;
+    // Helper function to get filename from path
+    function getFileName(filePath) {
+      if (!filePath) return 'Unknown';
+      return filePath.split(/[\/\\]/).pop();
     }
 
-    let content = `
-      <table border="1">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Message</th>
-          <th>Submitted At</th>
-        </tr>`;
+    async function loadAllFiles() {
+      try {
+        console.log('Loading files...');
+        const response = await fetch("http://localhost:5000/api/portfolio/admin/submissions");
 
-    messages.forEach(msg => {
-      content += `
-        <tr>
-          <td>${msg.id}</td>
-          <td>${msg.name}</td>
-          <td>${msg.email}</td>
-          <td>${msg.message}</td>
-          <td>${new Date(msg.submitted_at).toLocaleString()}</td>
-        </tr>`;
-    });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-    content += `</table>`;
-    document.getElementById("adminMessages").innerHTML = content;
-  } catch (error) {
-    console.error("Error fetching messages:", error);
-    document.getElementById("adminMessages").innerHTML = "<p>Error loading messages.</p>";
-  }
-}
+        const files = await response.json();
+        console.log('Files loaded:', files);
 
-// --------- CONTEST SUBMISSIONS ---------
-async function loadAllContests() {
-  try {
-    const response = await fetch("http://localhost:5000/api/contest/admin/submissions");
-    const entries = await response.json();
+        if (!files || !files.length) {
+          document.getElementById("adminFiles").innerHTML = "<p>No files uploaded.</p>";
+          return;
+        }
 
-    if (!entries.length) {
-      document.getElementById("adminContests").innerHTML = "<p>No contest submissions.</p>";
-      return;
+        let rows = files.map(file => {
+          const filename = getFileName(file.file_path);
+          const fileUrl = getFileUrl(file.file_path);
+
+          return `
+          <tr>
+            <td>${file.first_name || ''} ${file.last_name || ''}</td>
+            <td>${file.course_title || 'N/A'}</td>
+            <td>
+              <a href="${fileUrl}" target="_blank" class="text-decoration-none">
+                📄 ${filename}
+              </a>
+              <br>
+              <small class="text-muted">Original Path: ${file.file_path}</small>
+              <br>
+              <small class="text-info">Final URL: ${fileUrl}</small>
+            </td>
+            <td><span class="badge bg-secondary">${file.type || 'unknown'}</span></td>
+            <td>${file.uploaded_at ? new Date(file.uploaded_at).toLocaleString() : 'N/A'}</td>
+            <td>
+              ${file.type === 'assignment' ?
+              `<input type="number" class="form-control" id="grade-${file.id}" value="${file.grade || ''}" min="1" max="10" placeholder="1-10">` :
+              '-'
+            }
+            </td>
+            <td>
+              ${file.type === 'project' ?
+              `<textarea class="form-control" id="feedback-${file.id}" rows="2" placeholder="Enter feedback...">${file.feedback || ''}</textarea>` :
+              '-'
+            }
+            </td>
+            <td>
+              ${file.type === 'assignment' ?
+              `<button class="btn btn-sm btn-success mb-1" onclick="submitGrade(${file.id})">Save Grade</button><br>` :
+              ''
+            }
+              ${file.type === 'project' ?
+              `<button class="btn btn-sm btn-primary mb-1" onclick="submitFeedback(${file.id})">Save Feedback</button><br>` :
+              ''
+            }
+              <button class="btn btn-sm btn-outline-info mb-1" onclick="testFileAccess('${fileUrl}', '${filename}')">Test Link</button>
+            </td>
+          </tr>`;
+        }).join('');
+
+        document.getElementById("adminFiles").innerHTML = `
+          <table class="table table-bordered table-hover">
+            <thead class="table-success">
+              <tr>
+                <th>User</th>
+                <th>Course</th>
+                <th>File</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Grade</th>
+                <th>Feedback</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+      } catch (error) {
+        console.error("Error fetching files:", error);
+        document.getElementById("adminFiles").innerHTML = `
+          <div class="alert alert-danger">
+            <h5>Error loading files</h5>
+            <p>${error.message}</p>
+            <small>Check console for details</small>
+          </div>
+        `;
+      }
     }
 
-    let content = `
-      <table border="1">
-        <tr>
-          <th>User</th>
-          <th>Contest</th>
-          <th>File</th>
-          <th>Grade</th>
-          <th>Feedback</th>
-          <th>Actions</th>
-        </tr>`;
+    async function loadAllMessages() {
+      try {
+        console.log('Loading messages...');
+        const response = await fetch("http://localhost:5000/api/messages");
 
-    entries.forEach(entry => {
-      content += `
-        <tr>
-          <td>${entry.first_name} ${entry.last_name}</td>
-          <td>${entry.contest_title}</td>
-          <td><a href="${entry.file_path}" target="_blank">${entry.file_path.split('/').pop()}</a></td>
-          <td><input type="number" id="grade-${entry.id}" value="${entry.grade || ''}" min="1" max="10"></td>
-          <td><textarea id="feedback-${entry.id}">${entry.feedback || ''}</textarea></td>
-          <td><button onclick="submitContestGrade(${entry.id})">Submit</button></td>
-        </tr>`;
-    });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-    content += `</table>`;
-    document.getElementById("adminContests").innerHTML = content;
-  } catch (error) {
-    console.error("Error loading contest submissions:", error);
-    document.getElementById("adminContests").innerHTML = "<p>Error loading contest data.</p>";
-  }
-}
+        const messages = await response.json();
+        console.log('Messages loaded:', messages);
 
-async function submitContestGrade(entryId) {
-  const grade = document.getElementById(`grade-${entryId}`).value;
-  const feedback = document.getElementById(`feedback-${entryId}`).value;
+        if (!messages || !messages.length) {
+          document.getElementById("adminMessages").innerHTML = "<p>No messages received.</p>";
+          return;
+        }
 
-  if (!grade || grade < 1 || grade > 10) {
-    alert("Grade must be between 1 and 10.");
-    return;
-  }
+        const rows = messages.map(msg => `
+          <tr>
+            <td>${msg.id}</td>
+            <td>${msg.name || 'Anonymous'}</td>
+            <td>${msg.email || 'No email'}</td>
+            <td class="text-wrap" style="max-width: 300px;">${msg.message || 'No message'}</td>
+            <td>${msg.submitted_at ? new Date(msg.submitted_at).toLocaleString() : 'N/A'}</td>
+          </tr>
+        `).join('');
 
-  try {
-    const response = await fetch(`http://localhost:5000/api/contest/grade/${entryId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ grade, feedback })
-    });
+        document.getElementById("adminMessages").innerHTML = `
+          <table class="table table-striped table-bordered">
+            <thead class="table-success">
+              <tr>
+                <th>ID</th><th>Name</th><th>Email</th><th>Message</th><th>Submitted At</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+      } catch (error) {
+        console.error("Error loading messages:", error);
+        document.getElementById("adminMessages").innerHTML = `
+          <div class="alert alert-danger">
+            <h5>Error loading messages</h5>
+            <p>${error.message}</p>
+          </div>
+        `;
+      }
+    }
 
-    const result = await response.json();
-    alert(result.message);
-  } catch (error) {
-    console.error("Error submitting contest grade:", error);
-    alert("Failed to submit contest grade.");
-  }
-}
-</script>
+    async function loadContestList() {
+      try {
+        console.log('Loading contest list...');
+        const response = await fetch("http://localhost:5000/api/contest/all");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const contests = await response.json();
+        console.log('Contests loaded:', contests);
+
+        const filter = document.getElementById("contestFilter");
+        contests.forEach(c => {
+          const option = document.createElement("option");
+          option.value = c.id;
+          option.textContent = c.title;
+          filter.appendChild(option);
+        });
+      } catch (err) {
+        console.error("Error loading contest list:", err);
+      }
+    }
+
+    async function loadAllContests(filterId = "") {
+      try {
+        console.log('Loading contest submissions...');
+        let url = "http://localhost:5000/api/contest/admin/submissions";
+        if (filterId) url += `?contest_id=${filterId}`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const entries = await response.json();
+        console.log('Contest entries loaded:', entries);
+
+        if (!entries || !entries.length) {
+          document.getElementById("adminContests").innerHTML = "<p>No contest submissions found.</p>";
+          return;
+        }
+
+        const rows = entries.map(entry => {
+          const filename = getFileName(entry.file_path);
+          const fileUrl = getFileUrl(entry.file_path);
+
+          return `
+          <tr>
+            <td>${entry.first_name || ''} ${entry.last_name || ''}</td>
+            <td>${entry.contest_title || 'N/A'}</td>
+            <td>
+              <a href="${fileUrl}" target="_blank" class="text-decoration-none">
+                📄 ${filename}
+              </a>
+              <br>
+              <small class="text-muted">Original Path: ${entry.file_path}</small>
+              <br>
+              <small class="text-info">Final URL: ${fileUrl}</small>
+            </td>
+            <td>
+              <input class="form-control" type="number" id="grade-${entry.id}" 
+                     value="${entry.grade || ''}" min="1" max="10" placeholder="1-10">
+            </td>
+            <td>
+              <textarea class="form-control" id="feedback-${entry.id}" 
+                        rows="2" placeholder="Enter feedback...">${entry.feedback || ''}</textarea>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-success mb-1" onclick="submitContestGrade(${entry.id})">Save</button>
+              <button class="btn btn-sm btn-danger mb-1" onclick="deleteEntry(${entry.id})">Delete</button>
+              <button class="btn btn-sm btn-outline-info mb-1" onclick="testFileAccess('${fileUrl}', '${filename}')">Test</button>
+            </td>
+          </tr>`;
+        }).join('');
+
+        document.getElementById("adminContests").innerHTML = `
+          <table class="table table-hover table-bordered">
+            <thead class="table-success">
+              <tr>
+                <th>User</th><th>Contest</th><th>File</th><th>Grade</th><th>Feedback</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <button class="btn btn-warning mt-3" onclick="declareWinners()">🏆 Declare Winners</button>`;
+      } catch (err) {
+        console.error("Error loading contest entries:", err);
+        document.getElementById("adminContests").innerHTML = `
+          <div class="alert alert-danger">
+            <h5>Error loading contest submissions</h5>
+            <p>${err.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // Test function to check if file is accessible
+    async function testFileAccess(fileUrl, filename) {
+      try {
+        console.log(`Testing file access: ${fileUrl}`);
+        const response = await fetch(fileUrl, { method: 'HEAD' });
+
+        if (response.ok) {
+          alert(`✅ File "${filename}" is accessible!\nStatus: ${response.status}\nURL: ${fileUrl}`);
+        } else {
+          alert(`❌ File "${filename}" not accessible.\nStatus: ${response.status} - ${response.statusText}\nURL: ${fileUrl}`);
+        }
+      } catch (error) {
+        alert(`❌ Error accessing file "${filename}":\n${error.message}\nURL: ${fileUrl}`);
+        console.error('File access error:', error);
+      }
+    }
+
+    async function submitGrade(fileId) {
+      const gradeInput = document.getElementById(`grade-${fileId}`);
+      const grade = gradeInput.value;
+
+      if (!grade || grade < 1 || grade > 10) {
+        alert("Please enter a valid grade between 1 and 10!");
+        gradeInput.focus();
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/portfolio/grade/${fileId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ grade: parseInt(grade) })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert(`✅ ${result.message}`);
+          gradeInput.classList.add('is-valid');
+          setTimeout(() => gradeInput.classList.remove('is-valid'), 3000);
+        } else {
+          alert(`❌ ${result.message || 'Error submitting grade'}`);
+          gradeInput.classList.add('is-invalid');
+          setTimeout(() => gradeInput.classList.remove('is-invalid'), 3000);
+        }
+      } catch (error) {
+        console.error('Error submitting grade:', error);
+        alert(`❌ Error submitting grade: ${error.message}`);
+      }
+    }
+
+    async function submitFeedback(fileId) {
+      const feedbackInput = document.getElementById(`feedback-${fileId}`);
+      const feedback = feedbackInput.value;
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/portfolio/feedback/${fileId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ feedback })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert(`✅ ${result.message}`);
+          feedbackInput.classList.add('is-valid');
+          setTimeout(() => feedbackInput.classList.remove('is-valid'), 3000);
+        } else {
+          alert(`❌ ${result.message || 'Error submitting feedback'}`);
+          feedbackInput.classList.add('is-invalid');
+          setTimeout(() => feedbackInput.classList.remove('is-invalid'), 3000);
+        }
+      } catch (error) {
+        console.error('Error submitting feedback:', error);
+        alert(`❌ Error submitting feedback: ${error.message}`);
+      }
+    }
+
+    async function submitContestGrade(entryId) {
+      const gradeInput = document.getElementById(`grade-${entryId}`);
+      const feedbackInput = document.getElementById(`feedback-${entryId}`);
+      const grade = gradeInput.value;
+      const feedback = feedbackInput.value;
+
+      if (!grade || grade < 1 || grade > 10) {
+        alert("Please enter a valid grade between 1 and 10!");
+        gradeInput.focus();
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/contest/grade/${entryId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ grade: parseInt(grade), feedback })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert(`✅ ${result.message}`);
+          gradeInput.classList.add('is-valid');
+          feedbackInput.classList.add('is-valid');
+          setTimeout(() => {
+            gradeInput.classList.remove('is-valid');
+            feedbackInput.classList.remove('is-valid');
+          }, 3000);
+        } else {
+          alert(`❌ ${result.message || 'Error submitting grade'}`);
+        }
+      } catch (error) {
+        console.error('Error submitting contest grade:', error);
+        alert(`❌ Error submitting grade: ${error.message}`);
+      }
+    }
+
+    async function deleteEntry(id) {
+      if (!confirm("Are you sure you want to delete this entry? This action cannot be undone.")) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/contest/entry/${id}`, {
+          method: "DELETE"
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert(`✅ ${result.message}`);
+          loadAllContests(); // Reload the list
+        } else {
+          alert(`❌ ${result.message || 'Error deleting entry'}`);
+        }
+      } catch (error) {
+        console.error('Error deleting entry:', error);
+        alert(`❌ Error deleting entry: ${error.message}`);
+      }
+    }
+
+    async function declareWinners() {
+      const contestId = document.getElementById("contestFilter").value;
+      if (!contestId) {
+        alert("Please select a contest first.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/contest/winners/${contestId}`);
+        const result = await response.json();
+
+        if (response.ok && result.winner) {
+          alert(`🏆 Winner Declared!\nUser ID: ${result.winner.user_id}\nGrade: ${result.winner.grade}`);
+        } else {
+          alert(`ℹ️ ${result.message || 'No winner found'}`);
+        }
+      } catch (error) {
+        console.error('Error declaring winners:', error);
+        alert(`❌ Error declaring winners: ${error.message}`);
+      }
+    }
+  </script>
 
 </body>
+
 </html>

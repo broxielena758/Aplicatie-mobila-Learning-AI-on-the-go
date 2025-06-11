@@ -5,10 +5,11 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #b8f3d0, #e8f5ff);
+    background: linear-gradient(to right, #d9b0ec, #9bc0dd);
     color: #444;
     line-height: 1.6;
     display: flex;
@@ -18,7 +19,7 @@ html, body {
 
 /* Header */
 header {
-    background: linear-gradient(90deg, #48c774, #40b484);
+    background: linear-gradient(90deg, #a092d3, #ab68e2);
     color: white;
     padding: 1rem 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -46,7 +47,7 @@ header {
 
 .navbar a:hover,
 .navbar .active {
-    background-color: #339966;
+    background-color: #a092d3;
     transform: scale(1.1);
 }
 
@@ -63,13 +64,13 @@ main {
 }
 
 main {
-    min-height: 120vh; /* 🔥 Asigură că pagina este suficient de lungă */
-    padding-bottom: 5rem; /* 🔥 Evită suprapunerea conținutului cu footer-ul */
+    min-height: 120vh;
+    padding-bottom: 5rem;
 }
 
 h1 {
     text-align: center;
-    color: #339966;
+    color: #a092d3;
     font-size: 2.5rem;
     margin-bottom: 1rem;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -85,7 +86,7 @@ p {
 /* Services Section */
 .services-section {
     padding: 2rem;
-    background: linear-gradient(to bottom, #f0fff4, #d6ffe1);
+    background: linear-gradient(to bottom, #f7ebff, #e2d8ff);
     border-radius: 10px;
 }
 
@@ -118,14 +119,14 @@ p {
 
 /* Service Card Title */
 .services-cards h2 {
-    color: #339966;
+    color: #a092d3;
     font-size: 1.6rem;
     margin-bottom: 1rem;
     transition: color 0.3s ease;
 }
 
 .services-cards article:hover h2 {
-    color: #2a865c;
+    color: #8b6ed1;
 }
 
 /* Service Description */
@@ -136,7 +137,7 @@ p {
     margin-bottom: 1rem;
 }
 
-/* 🔹 Listă de cursuri îmbunătățită */
+/* List of Courses */
 .services-cards ul {
     list-style: none;
     padding: 0;
@@ -150,7 +151,7 @@ p {
 
 .services-cards ul li a {
     display: inline-block;
-    background: #339966;
+    background: #a092d3;
     color: white;
     padding: 0.6rem 1.2rem;
     border-radius: 6px;
@@ -160,19 +161,20 @@ p {
 }
 
 .services-cards ul li a:hover {
-    background: #2a865c;
+    background: #8b6ed1;
     transform: scale(1.05);
 }
 
-/* Adăugare iconițe la link-uri */
+/* Icon on links */
 .services-cards ul li a::before {
-    content: "📖 "; /* Emoji carte */
+    content: "📖 ";
     margin-right: 5px;
 }
 
+/* Footer */
 footer {
-    background: linear-gradient(90deg, #339966, #40b484) !important;
-    color: white !important; /* 🔥 FORȚEAZĂ textul să fie alb */
+    background: linear-gradient(90deg, #a092d3, #ab68e2) !important;
+    color: white !important;
     text-align: center;
     padding: 1rem;
     width: 100%;
@@ -187,12 +189,12 @@ footer {
 }
 
 footer p {
-    color: white !important; /* 🔥 Asigură-te că și textul <p> e alb */
-    font-weight: bold; /* Opțional, dacă vrei să arate mai bine */
+    color: white !important;
+    font-weight: bold;
     font-size: 1rem;
 }
 
-/* Responsivitate pentru Mobil */
+/* Responsivitate */
 @media (max-width: 768px) {
     .services-cards {
         grid-template-columns: 1fr;

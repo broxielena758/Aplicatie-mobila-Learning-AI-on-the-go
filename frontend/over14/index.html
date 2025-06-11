@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" type="image/png" href="images/logo.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Over 14 Courses</title>
@@ -16,15 +17,15 @@
                 el.classList.remove('show');
                 el.style.display = 'none'; // 🔥 Ascunde efectiv cursurile anterioare
             });
-    
+
             // Afișează doar secțiunea selectată
             const selectedCategory = document.getElementById(category);
-            selectedCategory.style.display = 'flex'; 
-    
+            selectedCategory.style.display = 'flex';
+
             // ✅ Adaugă clasa 'show' cu un delay mic pentru efect de fade-in
             setTimeout(() => selectedCategory.classList.add('show'), 10);
         }
-    </script>    
+    </script>
 
 </head>
 

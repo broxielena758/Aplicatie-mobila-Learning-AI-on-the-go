@@ -60,7 +60,7 @@ function calculateAge(dob) {
     const birthDate = new Date(dob);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
-    if (today.getMonth() < birthDate.getMonth() || 
+    if (today.getMonth() < birthDate.getMonth() ||
         (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
         age--; // Adjust age if birthday hasn't happened yet this year
     }

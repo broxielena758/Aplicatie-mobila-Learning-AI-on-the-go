@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" type="image/png" href="images/logo.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - AI Learning & Photography</title>
@@ -14,7 +15,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
-        const userId = localStorage.getItem("userId"); 
+        const userId = localStorage.getItem("userId");
         if (!userId) {
             alert("Trebuie să fii autentificat!");
             return;
@@ -35,7 +36,7 @@
         if (age < 14) {
             const over14Courses = document.querySelectorAll(".over14-course");
             over14Courses.forEach(course => {
-                course.style.display = "none"; 
+                course.style.display = "none";
             });
         }
     });
@@ -379,7 +380,7 @@
     <footer>
         <p>&copy; 2025 AI Learning & Photography. All rights reserved.</p>
     </footer>
-    
+
     <script src="js/portfolio.js"></script>
     <script src="js/footer.js"></script>
 </body>

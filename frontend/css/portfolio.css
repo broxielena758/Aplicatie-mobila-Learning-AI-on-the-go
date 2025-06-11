@@ -5,15 +5,15 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #b8f3d0, #e8f5ff);
+    background: linear-gradient(to right, #d9b0ec, #9bc0dd);
     color: #444;
     line-height: 1.6;
 }
 
-/* Structura paginii */
 body {
     display: flex;
     flex-direction: column;
@@ -22,7 +22,7 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(90deg, #48c774, #40b484);
+    background: linear-gradient(90deg, #d9b0ec, #9bc0dd);
     color: white;
     padding: 1rem 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -50,11 +50,10 @@ header {
 
 .navbar a:hover,
 .navbar .active {
-    background-color: #339966;
+    background-color: #a092d3;
     transform: scale(1.1);
 }
 
-/* Logout Button */
 .navbar button {
     background: none;
     border: none;
@@ -67,7 +66,7 @@ header {
 }
 
 .navbar button:hover {
-    background-color: #339966;
+    background-color: #a092d3;
     transform: scale(1.1);
 }
 
@@ -87,11 +86,17 @@ main {
     padding: 3rem;
     text-align: center;
     animation: fadeIn 0.8s ease-in-out;
+    background: linear-gradient(to bottom, #d0f3f0, #a8dadc);
+    /* 🌿 Minty green & teal */
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(160, 146, 211, 0.2);
 }
+
+
 
 .portfolio-section h1 {
     font-size: 2.5rem;
-    color: #339966;
+    color: #a092d3;
     margin-bottom: 1rem;
 }
 
@@ -104,7 +109,7 @@ main {
 /* Portfolio Buttons */
 .portfolio-section button {
     padding: 0.75rem 1.25rem;
-    background: linear-gradient(90deg, #48c774, #339966);
+    background: linear-gradient(90deg, #a092d3, #ab68e2);
     color: white;
     border: none;
     border-radius: 5px;
@@ -114,11 +119,10 @@ main {
 }
 
 .portfolio-section button:hover {
-    background: #40b484;
+    background: #a092d3;
     transform: scale(1.05);
 }
 
-/* Portfolio Images - Fix pentru dimensiunea lor */
 .portfolio-section img {
     width: 100%;
     height: auto;
@@ -128,7 +132,6 @@ main {
     border-radius: 10px;
 }
 
-/* Portfolio Cards */
 .portfolio-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -151,7 +154,6 @@ main {
     text-align: center;
 }
 
-/* Fix pentru imagini din carduri */
 .portfolio-card img {
     width: 100%;
     height: auto;
@@ -160,15 +162,13 @@ main {
     margin-bottom: 1rem;
 }
 
-/* Hover Effect */
 .portfolio-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Card Content */
 .portfolio-card h3 {
-    color: #339966;
+    color: #a092d3;
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -179,11 +179,10 @@ main {
     line-height: 1.6;
 }
 
-/* Portfolio Buttons */
 .portfolio-card button {
     padding: 0.75rem 1rem;
     margin: 0.5rem;
-    background: linear-gradient(90deg, #48c774, #339966);
+    background: linear-gradient(90deg, #a092d3, #ab68e2);
     color: white;
     border: none;
     border-radius: 5px;
@@ -193,7 +192,7 @@ main {
 }
 
 .portfolio-card button:hover {
-    background: #40b484;
+    background: #a092d3;
     transform: scale(1.05);
 }
 
@@ -209,31 +208,27 @@ main {
     overflow: hidden;
 }
 
-/* Table Header */
 .styled-table thead tr {
-    background-color: #4CAF50;
+    background-color: #a092d3;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
 }
 
-/* Table Cells */
-.styled-table th, .styled-table td {
+.styled-table th,
+.styled-table td {
     padding: 12px 15px;
     border-bottom: 1px solid #ddd;
 }
 
-/* Alternating Row Colors */
 .styled-table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-/* Table Hover */
 .styled-table tbody tr:hover {
-    background-color: #e0f0e9;
+    background-color: #efe6f5;
 }
 
-/* Assignment & Project Types */
 .assignment-type {
     color: #D2691E;
     font-weight: bold;
@@ -244,9 +239,8 @@ main {
     font-weight: bold;
 }
 
-/* File Links */
 .styled-table a {
-    color: #0066cc;
+    color: #6a5acd;
     text-decoration: none;
     font-weight: bold;
 }
@@ -255,8 +249,8 @@ main {
     text-decoration: underline;
 }
 
-/* No Files Message */
-.no-files, .error-message {
+.no-files,
+.error-message {
     color: #D2691E;
     font-size: 16px;
     font-weight: bold;
@@ -265,7 +259,7 @@ main {
 
 /* Footer */
 footer {
-    background: linear-gradient(90deg, #339966, #40b484);
+    background: linear-gradient(90deg, #a092d3, #9bc0dd);
     color: white;
     text-align: center;
     padding: 1rem;
@@ -280,6 +274,7 @@ footer {
         opacity: 0;
         transform: translateY(20px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);

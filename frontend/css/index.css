@@ -6,10 +6,11 @@
 }
 
 /* Stiluri generale */
-html, body {
+html,
+body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #b8f3d0, #e8f5ff);
+    background: linear-gradient(to right, #d9b0ec, #9bc0dd);
     color: #444;
     line-height: 1.6;
 }
@@ -23,7 +24,7 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(90deg, #48c774, #40b484);
+    background: linear-gradient(90deg, #a092d3, #9bc0dd);
     color: white;
     padding: 1rem 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -51,7 +52,7 @@ header {
 
 .navbar a:hover,
 .navbar .active {
-    background-color: #339966;
+    background-color: #a092d3;
     transform: scale(1.1);
 }
 
@@ -68,7 +69,7 @@ header {
 }
 
 .navbar button:hover {
-    background-color: #339966;
+    background-color: #a092d3;
     transform: scale(1.1);
 }
 
@@ -87,7 +88,7 @@ main {
 .hero {
     text-align: center;
     padding: 4rem 0;
-    background: linear-gradient(to bottom right, #48c774, #40b484);
+    background: linear-gradient(to bottom right, #a092d3, #ab68e2);
     color: white;
     border-radius: 12px;
     margin-bottom: 2rem;
@@ -116,7 +117,7 @@ main {
 
 .age-buttons button {
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(90deg, #48c774, #339966);
+    background: linear-gradient(90deg, #a092d3, #ab68e2);
     color: white;
     border: none;
     border-radius: 8px;
@@ -126,7 +127,7 @@ main {
 }
 
 .age-buttons button:hover {
-    background: #40b484;
+    background: #a092d3;
     transform: scale(1.05);
 }
 
@@ -159,7 +160,8 @@ main {
 .card img {
     width: 100%;
     height: auto;
-    max-width: 250px; /* ✅ Ajustează dimensiunea maximă */
+    max-width: 250px;
+    /* ✅ Ajustează dimensiunea maximă */
     border-radius: 8px;
     margin-bottom: 1rem;
 }
@@ -171,7 +173,7 @@ main {
 }
 
 .card h2 {
-    color: #339966;
+    color: #a092d3;
     margin-bottom: 1rem;
 }
 
@@ -225,7 +227,7 @@ main {
 
 /* Footer */
 footer {
-    background: linear-gradient(90deg, #339966, #40b484);
+    background: linear-gradient(90deg, #A092D3, #A092D3);
     color: white;
     text-align: center;
     padding: 1rem;
@@ -240,6 +242,7 @@ footer {
         opacity: 0;
         transform: translateY(20px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -266,6 +269,76 @@ footer {
     }
 
     .card img {
-        max-width: 200px; /* ✅ Ajustare pentru ecrane mici */
+        max-width: 200px;
+        /* ✅ Ajustare pentru ecrane mici */
     }
+}
+
+/* Index Page Only - EXTRA MINTY Card Colors */
+/* Super minty fresh cards for the index page! */
+
+/* Main index cards - Learning and Photography cards */
+.card-container .card {
+    background: linear-gradient(to bottom, #f0fffc, #a7f3d0) !important;
+    /* Extra minty gradient */
+    border: 2px solid #34d399 !important;
+    /* Bright mint border */
+}
+
+.card-container .card h2 {
+    color: #059669 !important;
+    /* Deep mint green for headings */
+    text-shadow: 0 1px 2px rgba(5, 150, 105, 0.3);
+    /* Subtle mint shadow */
+}
+
+.card-container .card p {
+    color: #047857 !important;
+    /* Darker mint for text */
+}
+
+.card-container .card:hover {
+    transform: translateY(-8px) !important;
+    /* More dramatic hover lift */
+    box-shadow: 0 12px 25px rgba(52, 211, 153, 0.4) !important;
+    /* Bright mint shadow */
+    border-color: #10b981 !important;
+    /* Even brighter mint border on hover */
+    background: linear-gradient(to bottom, #ecfdf5, #86efac) !important;
+    /* Brighter mint on hover */
+}
+
+/* Add a subtle mint glow effect */
+.card-container .card {
+    box-shadow: 0 4px 15px rgba(52, 211, 153, 0.2), 0 0 20px rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Make the card images have a subtle mint tint on hover */
+.card-container .card:hover img {
+    filter: hue-rotate(15deg) saturate(1.1) brightness(1.05);
+    transition: filter 0.3s ease;
+}
+
+/* Extra minty accent for the card borders */
+.card-container .card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #10b981, #34d399, #6ee7b7, #34d399);
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card-container .card {
+    position: relative;
+    z-index: 1;
+}
+
+.card-container .card:hover::before {
+    opacity: 0.7;
 }

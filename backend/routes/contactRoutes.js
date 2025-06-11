@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/db'); // Conexiunea la PostgreSQL
 
-// Salvarea unui mesaj în baza de date
+// Save message from contact form into database
 router.post('/contact', async (req, res) => {
     const { name, email, message } = req.body;
 
@@ -24,7 +24,7 @@ router.post('/contact', async (req, res) => {
 
 module.exports = router;
 
-// Obține toate mesajele (Admin)
+// Obtain all messages (Admin)
 router.get('/messages', async (req, res) => {
     try {
         const messages = await pool.query("SELECT * FROM messages ORDER BY submitted_at DESC");

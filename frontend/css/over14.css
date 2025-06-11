@@ -17,7 +17,8 @@ body.over14 {
     border-radius: 0 0 10px 10px;
 }
 
-.navbar a, .navbar button {
+.navbar a,
+.navbar button {
     color: white;
     text-decoration: none;
     font-size: 1.1rem;
@@ -26,7 +27,9 @@ body.over14 {
     border-radius: 4px;
 }
 
-.navbar a:hover, .navbar .active, .navbar button:hover {
+.navbar a:hover,
+.navbar .active,
+.navbar button:hover {
     background-color: #004c99;
     transform: scale(1.1);
 }
@@ -75,7 +78,8 @@ body.over14 {
 
 /* 🔥 Ascunde cursurile inițial */
 .category {
-    display: none; /* 🔥 Inițial, secțiunile de cursuri sunt ascunse */
+    display: none;
+    /* 🔥 Inițial, secțiunile de cursuri sunt ascunse */
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -83,7 +87,8 @@ body.over14 {
 
 /* ✅ Când sunt vizibile, le animăm frumos */
 .category.show {
-    display: flex !important; /* 🔥 Asigură că rămân vizibile */
+    display: flex !important;
+    /* 🔥 Asigură că rămân vizibile */
     opacity: 1;
     transform: translateY(0);
 }
@@ -145,10 +150,12 @@ footer {
     background: linear-gradient(90deg, #007BFF, #0056b3);
     color: white;
     text-align: center;
-    padding: 0.4rem 0; /* 🔹 Mai mic pe înălțime */
+    padding: 0.4rem 0;
+    /* 🔹 Mai mic pe înălțime */
     font-size: 0.9rem;
     font-weight: 500;
-    border-radius: 6px 6px 0 0; /* 🔹 Mai puțin rotunjit */
+    border-radius: 6px 6px 0 0;
+    /* 🔹 Mai puțin rotunjit */
     box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     bottom: 0;
@@ -156,36 +163,44 @@ footer {
 }
 
 /* 🔹 Fix pentru header și footer să atingă marginile */
-header, footer {
-    width: 100vw;  /* Asigură că acoperă întreaga lățime a ecranului */
+header,
+footer {
+    width: 100vw;
+    /* Asigură că acoperă întreaga lățime a ecranului */
     left: 0;
     right: 0;
 }
 
 /* 🔹 Elimină margini implicite ale browserului */
 body {
-    margin: 0;  /* Elimină marginea default */
-    padding: 0; 
+    margin: 0;
+    /* Elimină marginea default */
+    padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Face ca footer-ul să rămână jos */
+    min-height: 100vh;
+    /* Face ca footer-ul să rămână jos */
 }
 
 /* 🔹 Asigură că main ocupă spațiul rămas între header și footer */
 main {
-    flex: 1; /* Face ca secțiunea principală să ocupe spațiul liber */
+    flex: 1;
+    /* Face ca secțiunea principală să ocupe spațiul liber */
 }
 
 /* 🔹 Fix pentru header - Îl lipim de partea de sus a paginii */
 header {
-    position: fixed;  /* Îl face să rămână sus, indiferent de scroll */
+    position: fixed;
+    /* Îl face să rămână sus, indiferent de scroll */
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;  /* Asigură că stă deasupra altor elemente */
+    z-index: 1000;
+    /* Asigură că stă deasupra altor elemente */
 }
 
 /* 🔹 Ajustare pentru a nu acoperi conținutul */
 main {
-    padding-top: 70px; /* Ajustează înălțimea ca să nu fie acoperit de header */
+    padding-top: 70px;
+    /* Ajustează înălțimea ca să nu fie acoperit de header */
 }
