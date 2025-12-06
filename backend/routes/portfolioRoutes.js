@@ -3,6 +3,7 @@ const pool = require("../config/db");
 const fs = require("fs");
 const path = require("path");
 const router = express.Router();
+const { verifyToken } = require('../middleware/authMiddleware');
 
 // 📌 Ensure required directories exist
 const uploadFolder = path.join(__dirname, "../uploads");
@@ -142,3 +143,35 @@ router.post("/feedback/:submissionId", async (req, res) => {
 });
 
 module.exports = router;
+
+// 📌 Delete a submission (owner only)
+router.delete('/submissions/:id', verifyToken, async (req, res) => {
+    const { id } = req.params;
+    try {
+        const { rows } = await pool.query('SELECT * FROM submissions WHERE id = $1', [id]);
+        if (rows.length === 0) return res.status(404).json({ error: 'Submission not found' });
+
+        const submission = rows[0];
+        // Only owner can delete their submission
+        if (String(submission.user_id) !== String(req.user.id)) {
+            return res.status(403).json({ error: 'Not authorized to delete this submission' });
+        }
+
+        // Remove file from disk if exists
+        try {
+            const filePath = submission.file_path || '';
+            const storagePath = path.join(__dirname, '..', filePath.replace(/^\/+/, ''));
+            if (fs.existsSync(storagePath)) {
+                fs.unlinkSync(storagePath);
+            }
+        } catch (err) {
+            console.warn('Could not remove file for submission:', err.message || err);
+        }
+
+        const deleted = await pool.query('DELETE FROM submissions WHERE id = $1 RETURNING *', [id]);
+        res.json({ message: 'Submission deleted successfully', deleted: deleted.rows[0] });
+    } catch (error) {
+        console.error('Error deleting submission:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});

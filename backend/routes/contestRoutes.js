@@ -100,6 +100,46 @@ router.post("/submit", async (req, res) => {
     }
 });
 
+// 📌 Submit a Contest Quiz Result (age-based quizzes progress)
+const { verifyToken } = require('../middleware/authMiddleware');
+
+router.post('/quiz-submit', verifyToken, async (req, res) => {
+    try {
+        const { user_id, contest_id, score, total, percentage, prize } = req.body;
+
+        // Basic validation
+        if (!contest_id || score == null || total == null) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        // Ensure the authenticated user matches the provided user_id (if provided)
+        const authUserId = req.user && (req.user.id || req.user.user_id || req.user.sub);
+        if (user_id && authUserId && String(user_id) !== String(authUserId)) {
+            return res.status(403).json({ error: 'User id mismatch' });
+        }
+
+        const insertUserId = user_id || authUserId;
+        if (!insertUserId) return res.status(400).json({ error: 'User ID not provided or available' });
+
+        // Optional: ensure contest exists
+        const contestCheck = await pool.query('SELECT id FROM contests WHERE id = $1', [contest_id]);
+        if (contestCheck.rows.length === 0) {
+            return res.status(400).json({ error: 'Contest not found' });
+        }
+
+        await pool.query(
+            `INSERT INTO contest_quiz_results (user_id, contest_id, score, total, percentage, prize)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [insertUserId, contest_id, score, total, percentage || null, prize || null]
+        );
+
+        res.json({ message: 'Quiz result saved' });
+    } catch (error) {
+        console.error('Error saving contest quiz result:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 // 📌 Grade a Contest Entry
 router.post("/grade/:entry_id", async (req, res) => {
     const { entry_id } = req.params;
@@ -156,3 +196,34 @@ router.get("/admin/submissions", async (req, res) => {
 });
 
 module.exports = router;
+
+// 📌 Delete a contest entry (owner only)
+router.delete('/entries/:entry_id', verifyToken, async (req, res) => {
+    const { entry_id } = req.params;
+    try {
+        const { rows } = await pool.query('SELECT * FROM contest_entries WHERE id = $1', [entry_id]);
+        if (rows.length === 0) return res.status(404).json({ error: 'Contest entry not found' });
+
+        const entry = rows[0];
+        if (String(entry.user_id) !== String(req.user.id)) {
+            return res.status(403).json({ error: 'Not authorized to delete this entry' });
+        }
+
+        // Remove file if exists
+        try {
+            const filePath = entry.file_path || '';
+            const storagePath = path.join(__dirname, '..', filePath.replace(/^\/+/, ''));
+            if (fs.existsSync(storagePath)) {
+                await fs.promises.unlink(storagePath);
+            }
+        } catch (err) {
+            console.warn('Could not remove contest entry file:', err.message || err);
+        }
+
+        await pool.query('DELETE FROM contest_entries WHERE id = $1', [entry_id]);
+        res.json({ message: 'Contest entry deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting contest entry:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});

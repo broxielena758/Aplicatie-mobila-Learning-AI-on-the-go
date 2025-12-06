@@ -8,7 +8,6 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
@@ -16,7 +15,6 @@ CREATE TABLE courses (
     category VARCHAR(50) NOT NULL CHECK (category IN ('photography', 'learning')),
     age_group VARCHAR(10) NOT NULL CHECK (age_group IN ('under14', 'over14'))
 );
-
 CREATE TABLE submissions (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
@@ -24,13 +22,26 @@ CREATE TABLE submissions (
     file_path TEXT NOT NULL,
     type VARCHAR(20) NOT NULL CHECK (type IN ('assignment', 'project')),
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    grade INT CHECK (grade BETWEEN 1 AND 10), -- ✅ Added column for grading homework
+    grade INT CHECK (
+        grade BETWEEN 1 AND 10
+    ),
+    -- ✅ Added column for grading homework
     feedback TEXT -- ✅ Added column for project feedback
 );
-
 CREATE TABLE user_courses (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
     course_id INT REFERENCES courses(id) ON DELETE CASCADE,
     enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Table to store contest quiz results (age-based quiz progress and assigned prizes)
+CREATE TABLE IF NOT EXISTS contest_quiz_results (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    contest_id INT REFERENCES contests(id) ON DELETE CASCADE,
+    score INT NOT NULL,
+    total INT NOT NULL,
+    percentage INT,
+    prize VARCHAR(255),
+    attempted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

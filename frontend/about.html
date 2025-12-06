@@ -7,7 +7,74 @@
     <title>About - AI Insights</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/about.css">
+    <style>
+        .stats-section {
+            background: linear-gradient(135deg, #a8e6cf, #c8a2c8);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
 
+        .stats-title {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .stats-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .stats-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: white;
+            color: #8e44ad;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            color: #6b3aa0;
+        }
+
+        .stats-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stats-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .stats-feature h4 {
+            margin: 0 0 8px 0;
+            font-size: 1em;
+        }
+
+        .stats-feature p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+    </style>
 </head>
 
 <script src="js/auth.js"></script>
@@ -88,6 +155,34 @@
                         learning, and CapCut for photography.
                     </p>
                 </div>
+            </div>
+
+            <!-- Statistics Interface Section -->
+            <div class="stats-section">
+                <h2 class="stats-title">📊 Platform Statistics</h2>
+                <p class="stats-description">
+                    Track your learning progress and see how you're performing compared to other users.
+                    Access detailed analytics about grades, feedback, and contest results.
+                </p>
+
+                <div class="stats-features">
+                    <div class="stats-feature">
+                        <h4>📘 Homework Grades</h4>
+                        <p>View grade distributions</p>
+                    </div>
+                    <div class="stats-feature">
+                        <h4>💬 Project Feedback</h4>
+                        <p>See feedback insights</p>
+                    </div>
+                    <div class="stats-feature">
+                        <h4>🏆 Contest Results</h4>
+                        <p>Review contest performance</p>
+                    </div>
+                </div>
+
+                <a href="backend/index.php" class="stats-button">
+                    📊 Access Statistics Dashboard
+                </a>
             </div>
 
             <!-- Image with quote and source below -->

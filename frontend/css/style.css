@@ -9,7 +9,7 @@ html,
 body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #b8f3d0, #e8f5ff);
+    background: linear-gradient(to right, #d9b0ec, #9bc0dd);
     color: #444;
     line-height: 1.6;
 }
@@ -22,12 +22,13 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(90deg, #48c774, #40b484);
+    background: linear-gradient(90deg, #a092d3, #a092d3);
     color: white;
     padding: 1rem 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Navbar */
 .navbar {
     display: flex;
     justify-content: center;
@@ -50,7 +51,7 @@ header {
 
 .navbar a:hover,
 .navbar .active {
-    background-color: #339966;
+    background-color: #a092d3;
     transform: scale(1.1);
 }
 
@@ -72,7 +73,7 @@ section {
 
 h1,
 h2 {
-    color: #339966;
+    color: #a092d3;
     margin-bottom: 1rem;
 }
 
@@ -83,7 +84,7 @@ p {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(to bottom right, #48c774, #40b484);
+    background: linear-gradient(to bottom right, #b88dcc, #ab68e2);
     color: white;
     padding: 2rem;
     border-radius: 12px;
@@ -110,7 +111,7 @@ p {
 .hero .cta-button {
     display: inline-block;
     background: #ffffff;
-    color: #339966;
+    color: #a092d3;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     text-decoration: none;
@@ -119,7 +120,7 @@ p {
 }
 
 .hero .cta-button:hover {
-    background: #b8f3d0;
+    background: #9bc0dd;
     transform: scale(1.05);
 }
 
@@ -132,7 +133,7 @@ p {
 }
 
 .card {
-    background: linear-gradient(to bottom, #ffffff, #b8f3d0);
+    background: linear-gradient(to bottom, #ffffff, #9bc0dd);
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
@@ -148,7 +149,7 @@ p {
 }
 
 .card h2 {
-    color: #339966;
+    color: #a092d3;
     margin-bottom: 1rem;
 }
 
@@ -168,7 +169,7 @@ p {
 
 .age-buttons button {
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(90deg, #48c774, #339966);
+    background: linear-gradient(90deg, #b88dcc, #ab68e2);
     color: white;
     border: none;
     border-radius: 8px;
@@ -178,7 +179,7 @@ p {
 }
 
 .age-buttons button:hover {
-    background: #40b484;
+    background: #a092d3;
     transform: scale(1.05);
 }
 
@@ -205,7 +206,7 @@ img:hover {
 .services-section h1 {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #2a865c;
+    color: #a092d3;
 }
 
 .services-cards {
@@ -229,7 +230,7 @@ img:hover {
 }
 
 .services-cards h2 {
-    color: #339966;
+    color: #a092d3;
     margin-bottom: 1rem;
 }
 
@@ -242,7 +243,7 @@ img:hover {
     display: block;
     margin: 1rem auto 0;
     padding: 0.5rem 1rem;
-    background: #339966;
+    background: #a092d3;
     color: white;
     border: none;
     border-radius: 5px;
@@ -250,19 +251,19 @@ img:hover {
 }
 
 .services-cards button:hover {
-    background: #2a865c;
+    background: #ab68e2;
 }
 
 /* Portfolio Section */
 .portfolio-section {
     padding: 2rem;
-    background: linear-gradient(to bottom, #f0fff4, #d6ffe1);
+    background: linear-gradient(to bottom, #d9b0ec, #9bc0dd);
 }
 
 .portfolio-section h1 {
     text-align: center;
     font-size: 2.5rem;
-    color: #339966;
+    color: #a092d3;
     margin-bottom: 1.5rem;
 }
 
@@ -302,7 +303,7 @@ img:hover {
 
 /* Card Content */
 .portfolio-card h3 {
-    color: #339966;
+    color: #a092d3;
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -315,7 +316,7 @@ img:hover {
 
 /* Interactive Effects */
 .portfolio-card:hover h3 {
-    color: #2a865c;
+    color: #a092d3;
 }
 
 .portfolio-card:hover p {
@@ -349,7 +350,7 @@ form {
 
 form label {
     font-weight: bold;
-    color: #339966;
+    color: #a092d3;
     display: block;
     margin-bottom: 0.25rem;
 }
@@ -366,13 +367,13 @@ form button {
 
 form input:focus,
 form textarea:focus {
-    border-color: #339966;
+    border-color: #a092d3;
     box-shadow: 0 0 8px rgba(51, 153, 102, 0.5);
     outline: none;
 }
 
 form button {
-    background: linear-gradient(90deg, #48c774, #339966);
+    background: linear-gradient(90deg, #b88dcc, #ab68e2);
     color: white;
     border: none;
     cursor: pointer;
@@ -431,19 +432,22 @@ body.over14 .card h2 {
 
 /* Footer */
 footer {
-    background: linear-gradient(90deg, #339966, #40b484);
+    background: linear-gradient(90deg, #a092d3, #a092d3);
     color: white;
     text-align: center;
     padding: 1rem;
     width: 100%;
-    opacity: 0; /* ✅ Hidden by default */
-    transform: translateY(100%); /* ✅ Move out of view */
+    opacity: 0;
+    /* ✅ Hidden by default */
+    transform: translateY(100%);
+    /* ✅ Move out of view */
     transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1000; /* Ensure it stays above other content */
+    z-index: 1000;
+    /* Ensure it stays above other content */
 }
 
 
@@ -469,7 +473,7 @@ form {
 
 form label {
     font-weight: bold;
-    color: #339966;
+    color: #a092d3;
     /* Green color for labels */
     display: block;
     margin-bottom: 0.25rem;
@@ -487,7 +491,7 @@ form button {
 
 form input:focus,
 form textarea:focus {
-    border-color: #339966;
+    border-color: #a092d3;
     /* Green focus border */
     box-shadow: 0 0 8px rgba(51, 153, 102, 0.5);
     /* Green focus glow */
@@ -495,7 +499,7 @@ form textarea:focus {
 }
 
 form button {
-    background: linear-gradient(90deg, #48c774, #339966);
+    background: linear-gradient(90deg, #b88dcc, #ab68e2);
     /* Green gradient background */
     color: white;
     border: none;
@@ -504,7 +508,7 @@ form button {
 }
 
 form button:hover {
-    background: #40b484;
+    background: #ab68e2;
     /* Slightly darker green on hover */
     transform: scale(1.05);
 }
@@ -529,10 +533,10 @@ form button:hover {
 }
 
 .tabs button.active {
-    background-color: #339966;
+    background-color: #a092d3;
     /* Green color for active tab */
     color: white;
-    border-bottom: 2px solid #339966;
+    border-bottom: 2px solid #a092d3;
     /* Green color for active tab */
 }
 
@@ -567,7 +571,7 @@ form input {
 
 form button {
     padding: 0.75rem;
-    background-color: #339966;
+    background-color: #a092d3;
     /* Green background for the form button */
     color: white;
     border: none;
@@ -576,7 +580,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #40b484;
+    background-color: #ab68e2;
     /* Slightly darker green on hover */
     transform: scale(1.05);
 }
@@ -613,7 +617,7 @@ form button:hover {
 }
 
 .card h2 {
-    color: #339966;
+    color: #a092d3;
 }
 
 .feature-card {
@@ -637,7 +641,7 @@ form button:hover {
 
 .feature-card h3 {
     font-size: 1.5rem;
-    color: #339966;
+    color: #a092d3;
 }
 
 .quote-source {
@@ -896,7 +900,7 @@ button {
     margin-right: 5px;
     padding: 10px 15px;
     font-size: 14px;
-    background-color: #0f8051;
+    background-color: #ab68e2;
     color: white;
     border: none;
     border-radius: 5px;
@@ -905,24 +909,26 @@ button {
 }
 
 button:hover {
-    background-color: #0f8051;
+    background-color: #ab68e2;
 }
 
 .button {
     padding: 0.75rem;
-    background-color: #339966;
+    background-color: #a092d3;
     border-radius: 8px;
     /* Green background for the form button */
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    text-decoration: none; /* Remove underline from link */
+    text-decoration: none;
+    /* Remove underline from link */
     text-align: center;
-    display: inline-block; /* Make it behave like a button */
+    display: inline-block;
+    /* Make it behave like a button */
 }
 
 .button:hover {
-    background-color: #40b484;
+    background-color: #ab68e2;
     /* Slightly darker green on hover */
     transform: scale(1.05);
 }
@@ -941,14 +947,16 @@ button:hover {
 
 /* 📌 Stilizare pentru header */
 .styled-table thead tr {
-    background-color: #4CAF50; /* Verde subtil */
+    background-color: #b88dcc;
+    /* Verde subtil */
     color: #ffffff;
     text-align: left;
     font-weight: bold;
 }
 
 /* 📌 Stilizare pentru celulele tabelului */
-.styled-table th, .styled-table td {
+.styled-table th,
+.styled-table td {
     padding: 12px 15px;
     border-bottom: 1px solid #ddd;
 }
@@ -965,12 +973,14 @@ button:hover {
 
 /* 📌 Stilizare pentru assignment și project */
 .assignment-type {
-    color: #D2691E; /* Portocaliu subtil */
+    color: #D2691E;
+    /* Portocaliu subtil */
     font-weight: bold;
 }
 
 .project-type {
-    color: #4682B4; /* Albastru subtil */
+    color: #4682B4;
+    /* Albastru subtil */
     font-weight: bold;
 }
 
@@ -986,7 +996,8 @@ button:hover {
 }
 
 /* 📌 Mesaj pentru lipsa fișierelor */
-.no-files, .error-message {
+.no-files,
+.error-message {
     color: #D2691E;
     font-size: 16px;
     font-weight: bold;
@@ -996,7 +1007,8 @@ button:hover {
 /* 📌 Ensure navbar items (links & buttons) are aligned */
 .navbar {
     display: flex;
-    align-items: center; /* Ensures everything is perfectly aligned */
+    align-items: center;
+    /* Ensures everything is perfectly aligned */
     justify-content: center;
     gap: 1.5rem;
     list-style: none;
@@ -1014,15 +1026,19 @@ button:hover {
     border-radius: 4px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-family: inherit;
-    display: inline-flex; /* ✅ Ensures alignment with links */
-    align-items: center; /* ✅ Forces vertical alignment */
-    height: 100%; /* ✅ Matches the height of <a> elements */
-    line-height: normal; /* ✅ Prevents extra padding */
+    display: inline-flex;
+    /* ✅ Ensures alignment with links */
+    align-items: center;
+    /* ✅ Forces vertical alignment */
+    height: 100%;
+    /* ✅ Matches the height of <a> elements */
+    line-height: normal;
+    /* ✅ Prevents extra padding */
 }
 
 /* 📌 Ensure hover effect matches links */
 .navbar button:hover {
-    background-color: #339966;
+    background-color: #b88dcc;
     transform: scale(1.1);
 }
 

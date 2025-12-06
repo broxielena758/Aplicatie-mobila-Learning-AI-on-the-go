@@ -12,10 +12,11 @@
 <body>
     <main>
         <div class="form-container">
-            <!-- Tabs for Switching Between Login and Sign Up -->
+            <!-- Tabs for Switching Between Login, Sign Up, and Admin -->
             <div class="tabs">
                 <button id="loginTab" class="active">Login</button>
-                <button id="registerTab" class="active">Register</button>
+                <button id="registerTab">Register</button>
+                <button id="adminTab">Admin Panel</button>
             </div>
 
             <!-- Login Form -->
@@ -55,28 +56,49 @@
 
                 <button type="submit">Register</button>
             </form>
+
+            <!-- Admin Panel Form -->
+            <form id="adminForm" style="display: none;">
+                <h2>Admin Panel</h2>
+                <label for="adminPassword">Admin Password</label>
+                <input type="password" id="adminPassword" name="password" required>
+                <button type="submit">Access Admin Panel</button>
+            </form>
         </div>
     </main>
 
     <script>
-        // Switch Between Login and Register Forms
+        // Switch Between Login, Register, and Admin Forms
         document.getElementById("loginTab").addEventListener("click", function () {
             document.getElementById("loginForm").style.display = "block";
             document.getElementById("registerForm").style.display = "none";
+            document.getElementById("adminForm").style.display = "none";
             this.classList.add("active");
             document.getElementById("registerTab").classList.remove("active");
+            document.getElementById("adminTab").classList.remove("active");
         });
 
         document.getElementById("registerTab").addEventListener("click", function () {
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "block";
+            document.getElementById("adminForm").style.display = "none";
             this.classList.add("active");
             document.getElementById("loginTab").classList.remove("active");
+            document.getElementById("adminTab").classList.remove("active");
+        });
+
+        document.getElementById("adminTab").addEventListener("click", function () {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("registerForm").style.display = "none";
+            document.getElementById("adminForm").style.display = "block";
+            this.classList.add("active");
+            document.getElementById("loginTab").classList.remove("active");
+            document.getElementById("registerTab").classList.remove("active");
         });
 
         // ✅ Handle REGISTER
         document.getElementById("registerForm").addEventListener("submit", async function (event) {
-            event.preventDefault(); 
+            event.preventDefault();
 
             const firstName = document.getElementById("registerFirstName").value;
             const lastName = document.getElementById("registerLastName").value;
@@ -103,7 +125,7 @@
                 const result = await response.json();
                 if (response.ok) {
                     alert("Registration successful! You can now log in.");
-                    document.getElementById("loginTab").click(); 
+                    document.getElementById("loginTab").click();
                 } else {
                     alert("Registration failed: " + result.error);
                 }
@@ -114,7 +136,7 @@
 
         // ✅ Handle LOGIN
         document.getElementById("loginForm").addEventListener("submit", async function (event) {
-            event.preventDefault(); 
+            event.preventDefault();
 
             const email = document.getElementById("loginEmail").value;
             const password = document.getElementById("loginPassword").value;
@@ -140,6 +162,33 @@
                 }
             } catch (error) {
                 alert("Login error: " + error.message);
+            }
+        });
+
+        // ✅ Handle ADMIN LOGIN
+        document.getElementById("adminForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const password = document.getElementById("adminPassword").value;
+
+            try {
+                const response = await fetch("http://localhost:5000/api/auth/admin-login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem("admin_token", result.token);
+                    alert("Admin login successful!");
+                    window.location.href = "admin.html";
+                } else {
+                    alert("Admin login failed: " + result.message);
+                }
+            } catch (error) {
+                alert("Admin login error: " + error.message);
             }
         });
     </script>

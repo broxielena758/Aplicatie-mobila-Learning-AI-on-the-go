@@ -5,10 +5,11 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #b8f3d0, #e8f5ff);
+    background: linear-gradient(to right, #d9b0ec, #9bc0dd);
     color: #444;
     line-height: 1.6;
     display: flex;
@@ -54,7 +55,7 @@ main:hover {
 }
 
 .tabs button.active {
-    background: linear-gradient(90deg, #48c774, #339966);
+    background: linear-gradient(90deg, #a092d3, #ab68e2);
     color: white;
     transform: scale(1.05);
     box-shadow: 0 3px 8px rgba(51, 153, 102, 0.3);
@@ -71,7 +72,7 @@ form {
 /* Input Fields */
 form label {
     font-weight: bold;
-    color: #339966;
+    color: #a092d3;
     display: block;
     text-align: left;
     font-size: 0.95rem;
@@ -88,15 +89,15 @@ form input {
 }
 
 form input:focus {
-    border-color: #339966;
-    box-shadow: 0 0 10px rgba(51, 153, 102, 0.4);
+    border-color: #a092d3;
+    box-shadow: 0 0 10px rgba(104, 51, 153, 0.4);
     outline: none;
 }
 
 /* Submit Button */
 form button {
     padding: 0.85rem;
-    background: linear-gradient(90deg, #48c774, #339966);
+    background: linear-gradient(90deg, #a092d3, #ab68e2);
     color: white;
     border: none;
     cursor: pointer;
@@ -108,9 +109,9 @@ form button {
 }
 
 form button:hover {
-    background: #40b484;
+    background: #ab68e2;
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(64, 180, 132, 0.4);
+    box-shadow: 0 4px 12px rgba(80, 34, 107, 0.4);
 }
 
 /* Alternate Action Button */
@@ -119,7 +120,7 @@ form button:hover {
     margin-top: 1.2rem;
     padding: 0.85rem;
     text-align: center;
-    background: #339966;
+    background: #a092d3;
     color: white;
     border-radius: 8px;
     text-decoration: none;
@@ -128,9 +129,9 @@ form button:hover {
 }
 
 .button:hover {
-    background: #40b484;
+    background: #ab68e2;
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(64, 180, 132, 0.3);
+    box-shadow: 0 4px 12px rgba(58, 22, 70, 0.3);
 }
 
 /* Responsive Adjustments */

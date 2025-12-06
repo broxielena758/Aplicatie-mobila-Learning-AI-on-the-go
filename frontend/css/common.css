@@ -6,21 +6,21 @@
     font-family: 'Nunito', sans-serif !important;
 }
 
-
 /* ✅ NAVBAR GENERAL - APLICABIL ÎN TOATE PAGINILE */
 .navbar {
     background: linear-gradient(90deg, #007BFF, #0056b3);
+    /* 🔵 Blue kept as is */
     padding: 1rem;
     display: flex;
     justify-content: center;
-    align-items: center; /* ✅ Asigură alinierea verticală perfectă */
+    align-items: center;
     gap: 1.5rem;
     list-style: none;
     border-radius: 0 0 10px 10px;
 }
 
 /* ✅ Stilizare Link-uri și Buton Logout */
-.navbar a, 
+.navbar a,
 .navbar button {
     color: white;
     text-decoration: none;
@@ -29,16 +29,17 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
     border-radius: 5px;
     font-weight: bold;
-    display: flex; 
-    align-items: center; /* ✅ Fix pentru aliniere verticală */
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
 /* ✅ Hover Effect pentru Link-uri & Logout */
-.navbar a:hover, 
-.navbar .active, 
+.navbar a:hover,
+.navbar .active,
 .navbar button:hover {
     background-color: #004c99;
+    /* 🔵 Blue hover preserved */
     transform: scale(1.1);
 }
 
@@ -51,7 +52,7 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-family: inherit;
     display: flex;
-    align-items: center; /* ✅ Fix pentru aliniere */
+    align-items: center;
     height: 100%;
     padding: 0.5rem 1rem;
 }
@@ -66,29 +67,31 @@
 
 /* 🔥 Fix: Header pe toată lățimea ecranului */
 header {
-    width: 100vw; /* ✅ Asigură că ocupă toată lățimea ecranului */
-    height: 60px; /* ✅ Setează o înălțime mai mică pentru un design elegant */
-    padding: 0.5rem 0; /* ✅ Reduce padding-ul */
-    background: linear-gradient(90deg, #007BFF, #0056b3); /* ✅ Menține gradientul frumos */
+    width: 100vw;
+    height: 60px;
+    padding: 0.5rem 0;
+    background: linear-gradient(90deg, #007BFF, #0056b3);
+    /* 🔵 Blue preserved */
     display: flex;
-    justify-content: center; /* ✅ Aliniere corectă */
+    justify-content: center;
     align-items: center;
-    position: fixed; /* ✅ Face header-ul să rămână fix sus */
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000; /* ✅ Se asigură că stă deasupra altor elemente */
+    z-index: 1000;
 }
 
 /* 🔹 Navbar pe toată lățimea */
 .navbar {
     display: flex;
-    justify-content: space-around; /* ✅ Distanțează link-urile uniform */
-    width: 100%; /* ✅ Face navbar-ul să ocupe toată lățimea header-ului */
+    justify-content: space-around;
+    width: 100%;
     padding: 0;
 }
 
 /* 🔥 Fix pentru butoane și link-uri */
-.navbar a, .navbar button {
+.navbar a,
+.navbar button {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     text-transform: uppercase;
@@ -101,23 +104,22 @@ header img {
 
 /* 🔥 Font mai prietenos pentru tot site-ul */
 body {
-    font-family: 'Nunito', sans-serif; /* ✅ Font elegant și modern */
+    font-family: 'Nunito', sans-serif;
 }
 
-/* 🔹 Importă font-ul din Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
-
 /* ✅ Navbar cu font mai blând */
-.navbar a, .navbar button {
+.navbar a,
+.navbar button {
     font-family: 'Nunito', sans-serif;
-    font-weight: 600; /* ✅ Face textul mai puțin agresiv */
-    font-size: 1rem; /* ✅ Ușor mai mic pentru un aspect rafinat */
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 /* ✅ Hero section */
-.hero h1, .hero p {
+.hero h1,
+.hero p {
     font-family: 'Nunito', sans-serif;
-    font-weight: 700; /* ✅ Text clar, dar nu agresiv */
+    font-weight: 700;
 }
 
 /* ✅ Footer */
@@ -125,3 +127,5 @@ footer {
     font-family: 'Nunito', sans-serif;
     font-weight: 400;
 }
+
+/* 🟠 Orange color (like #D2691E) and 🔵 Blue tones are preserved */
