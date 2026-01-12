@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+.env
+.env.*
+*.log
+
+# Android/Flutter
+.android/
+.ios/
+.dart_tool/
+build/
+**/.DS_Store
+
+# IDE
+.vscode/
+.idea/
