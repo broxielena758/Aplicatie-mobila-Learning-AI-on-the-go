@@ -6,6 +6,7 @@ const router = express.Router();
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
+<<<<<<< HEAD
 // Protected profile route — returns user data (id, first_name, last_name, dob, email, phone)
 router.get('/profile', verifyToken, async (req, res) => {
     // authController.getProfile expects req.user.id to be set
@@ -14,6 +15,8 @@ router.get('/profile', verifyToken, async (req, res) => {
     return getProfile(req, res);
 });
 
+=======
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
 // ✅ Admin login route
 router.post('/admin-login', (req, res) => {
     const { password } = req.body;

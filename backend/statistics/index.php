@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
+=======
+  <link rel="icon" type="image/png" href="images/logo.png">
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Platform Statistics</title>
     <!-- 📂 Statistics Navigation Menu -->
 <div style="text-align: center; margin: 20px;">
     <a href="index.php" style="margin: 5px; padding: 10px 20px; background-color: #48c774; color: white; text-decoration: none; border-radius: 5px;">📊 Statistics Menu</a>
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     <a href="grades.php" style="margin: 5px; padding: 10px 20px; background-color: #209cee; color: white; text-decoration: none; border-radius: 5px;">📘 Grades</a>
     <a href="feedback.php" style="margin: 5px; padding: 10px 20px; background-color: #ff851b; color: white; text-decoration: none; border-radius: 5px;">💬 Feedback</a>
     <a href="contests.php" style="margin: 5px; padding: 10px 20px; background-color: #b86bff; color: white; text-decoration: none; border-radius: 5px;">🏆 Contests</a>
@@ -18,7 +27,11 @@
       background-color: #f7f7f7;
     }
     .navbar {
+<<<<<<< HEAD
       background: linear-gradient(90deg, #48c774, #40b484);
+=======
+      background: linear-gradient(90deg, #A092D3, #A092D3);
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     }
     .navbar a {
       color: white;
@@ -71,4 +84,8 @@
 </div>
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a

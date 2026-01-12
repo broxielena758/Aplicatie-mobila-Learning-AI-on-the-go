@@ -19,6 +19,10 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
+=======
+    <link rel="icon" type="image/png" href="images/logo.png">
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     <meta charset="UTF-8">
     <title>📩 Real-Time Project Feedback</title>
     <!-- 📂 Statistics Navigation Menu -->
@@ -34,6 +38,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
+<<<<<<< HEAD
             background-color: #e8f5e9;
             font-family: 'Segoe UI', sans-serif;
         }
@@ -53,6 +58,51 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
         .btn-download {
             display: block;
             margin: 1rem auto 2rem auto;
+=======
+            background: linear-gradient(135deg, #E8E2F0, #F0EAFA);
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+        }
+        
+        h2 {
+            text-align: center;
+            color: #6B46C1;
+            margin-top: 2rem;
+            text-shadow: 0 2px 4px rgba(107, 70, 193, 0.1);
+        }
+        
+        .chart-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(107, 70, 193, 0.15);
+            border: 1px solid rgba(160, 146, 211, 0.2);
+        }
+        
+        .btn-download {
+            display: block;
+            margin: 1rem auto 2rem auto;
+            background: linear-gradient(45deg, #A092D3, #8B7EC8);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(160, 146, 211, 0.3);
+        }
+        
+        .btn-download:hover {
+            background: linear-gradient(45deg, #8B7EC8, #7A6FBD);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(160, 146, 211, 0.4);
+            color: white;
+        }
+
+        canvas {
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(107, 70, 193, 0.1);
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
         }
     </style>
 </head>
@@ -61,7 +111,11 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 <h2>📩 Real-Time Project Feedback</h2>
 <div class="chart-container">
     <canvas id="feedbackChart"></canvas>
+<<<<<<< HEAD
     <button id="downloadBtn" class="btn btn-warning btn-download">📥 Download as PNG</button>
+=======
+    <button id="downloadBtn" class="btn btn-download">📥 Download as PNG</button>
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
 </div>
 
 <script>
@@ -74,9 +128,17 @@ let chart = new Chart(ctx, {
         datasets: [{
             label: 'Feedback Count',
             data: [],
+<<<<<<< HEAD
             backgroundColor: 'rgba(255, 152, 0, 0.6)',  // 🟧 New warm orange color
             borderColor: 'rgba(255, 152, 0, 1)',
             borderWidth: 1
+=======
+            backgroundColor: 'rgba(160, 146, 211, 0.7)',
+            borderColor: 'rgba(107, 70, 193, 1)',
+            borderWidth: 2,
+            borderRadius: 8,
+            borderSkipped: false,
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
         }]
     },
     options: {
@@ -85,12 +147,43 @@ let chart = new Chart(ctx, {
                 display: true,
                 text: 'Feedback Entries per Course',
                 font: {
+<<<<<<< HEAD
                     size: 18
+=======
+                    size: 18,
+                    weight: 'bold'
+                },
+                color: '#6B46C1'
+            },
+            legend: {
+                labels: {
+                    color: '#6B46C1'
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
                 }
             }
         },
         scales: {
+<<<<<<< HEAD
             y: { beginAtZero: true }
+=======
+            y: { 
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(160, 146, 211, 0.1)'
+                },
+                ticks: {
+                    color: '#6B46C1'
+                }
+            },
+            x: {
+                grid: {
+                    color: 'rgba(160, 146, 211, 0.1)'
+                },
+                ticks: {
+                    color: '#6B46C1'
+                }
+            }
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
         }
     }
 });
@@ -118,4 +211,8 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
 </script>
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a

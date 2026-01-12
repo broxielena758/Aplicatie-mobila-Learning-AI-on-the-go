@@ -40,6 +40,10 @@ while ($row = pg_fetch_assoc($result)) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
+=======
+  <link rel="icon" type="image/png" href="images/logo.png">
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
   <meta charset="UTF-8">
   <title>Contest Participation Statistics</title>
   <!-- 📂 Statistics Navigation Menu -->
@@ -55,28 +59,69 @@ while ($row = pg_fetch_assoc($result)) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
+<<<<<<< HEAD
       background-color: #e8f5e9;
       font-family: 'Segoe UI', sans-serif;
       padding-bottom: 50px;
+=======
+      background: linear-gradient(135deg, #E8E2F0, #F0EAFA);
+      font-family: 'Segoe UI', sans-serif;
+      padding-bottom: 50px;
+      min-height: 100vh;
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     }
 
     h1 {
       text-align: center;
       margin-top: 2rem;
+<<<<<<< HEAD
       color: #2e7d32;
+=======
+      color: #6B46C1;
+      text-shadow: 0 2px 4px rgba(107, 70, 193, 0.1);
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     }
 
     .chart-container {
       max-width: 950px;
       margin: 2rem auto;
+<<<<<<< HEAD
       background: white;
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.08);
+=======
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(107, 70, 193, 0.15);
+      border: 1px solid rgba(160, 146, 211, 0.2);
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     }
 
     .export-btn {
       margin-top: 1.5rem;
+<<<<<<< HEAD
+=======
+      background: linear-gradient(45deg, #A092D3, #8B7EC8);
+      border: none;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(160, 146, 211, 0.3);
+    }
+
+    .export-btn:hover {
+      background: linear-gradient(45deg, #8B7EC8, #7A6FBD);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(160, 146, 211, 0.4);
+      color: white;
+    }
+
+    canvas {
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(107, 70, 193, 0.1);
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     }
   </style>
 </head>
@@ -87,14 +132,22 @@ while ($row = pg_fetch_assoc($result)) {
 <div class="chart-container">
   <canvas id="entryChart"></canvas>
   <div class="text-center">
+<<<<<<< HEAD
     <button class="btn btn-success export-btn" onclick="downloadChart('entryChart', 'entries_chart.png')">📥 Download Entries Chart</button>
+=======
+    <button class="btn export-btn" onclick="downloadChart('entryChart', 'entries_chart.png')">📥 Download Entries Chart</button>
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
   </div>
 </div>
 
 <div class="chart-container">
   <canvas id="gradeChart"></canvas>
   <div class="text-center">
+<<<<<<< HEAD
     <button class="btn btn-primary export-btn" onclick="downloadChart('gradeChart', 'grades_chart.png')">📥 Download Grades Chart</button>
+=======
+    <button class="btn export-btn" onclick="downloadChart('gradeChart', 'grades_chart.png')">📥 Download Grades Chart</button>
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
   </div>
 </div>
 
@@ -111,9 +164,17 @@ new Chart(document.getElementById("entryChart"), {
     datasets: [{
       label: 'Number of Submissions',
       data: entryData,
+<<<<<<< HEAD
       backgroundColor: 'rgba(76, 175, 80, 0.7)',
       borderColor: 'rgba(56, 142, 60, 1)',
       borderWidth: 1
+=======
+      backgroundColor: 'rgba(160, 146, 211, 0.7)',
+      borderColor: 'rgba(107, 70, 193, 1)',
+      borderWidth: 2,
+      borderRadius: 8,
+      borderSkipped: false,
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     }]
   },
   options: {
@@ -122,12 +183,43 @@ new Chart(document.getElementById("entryChart"), {
         display: true,
         text: '📥 Entries per Contest',
         font: {
+<<<<<<< HEAD
           size: 18
+=======
+          size: 18,
+          weight: 'bold'
+        },
+        color: '#6B46C1'
+      },
+      legend: {
+        labels: {
+          color: '#6B46C1'
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
         }
       }
     },
     scales: {
+<<<<<<< HEAD
       y: { beginAtZero: true }
+=======
+      y: { 
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(160, 146, 211, 0.1)'
+        },
+        ticks: {
+          color: '#6B46C1'
+        }
+      },
+      x: {
+        grid: {
+          color: 'rgba(160, 146, 211, 0.1)'
+        },
+        ticks: {
+          color: '#6B46C1'
+        }
+      }
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     }
   }
 });
@@ -140,9 +232,17 @@ new Chart(document.getElementById("gradeChart"), {
     datasets: [{
       label: 'Average Grade',
       data: gradeData,
+<<<<<<< HEAD
       backgroundColor: 'rgba(33, 150, 243, 0.7)',
       borderColor: 'rgba(25, 118, 210, 1)',
       borderWidth: 1
+=======
+      backgroundColor: 'rgba(139, 126, 200, 0.7)',
+      borderColor: 'rgba(107, 70, 193, 1)',
+      borderWidth: 2,
+      borderRadius: 8,
+      borderSkipped: false,
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
     }]
   },
   options: {
@@ -151,14 +251,43 @@ new Chart(document.getElementById("gradeChart"), {
         display: true,
         text: '📊 Average Grades per Contest',
         font: {
+<<<<<<< HEAD
           size: 18
+=======
+          size: 18,
+          weight: 'bold'
+        },
+        color: '#6B46C1'
+      },
+      legend: {
+        labels: {
+          color: '#6B46C1'
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
         }
       }
     },
     scales: {
       y: {
         beginAtZero: true,
+<<<<<<< HEAD
         max: 10
+=======
+        max: 10,
+        grid: {
+          color: 'rgba(160, 146, 211, 0.1)'
+        },
+        ticks: {
+          color: '#6B46C1'
+        }
+      },
+      x: {
+        grid: {
+          color: 'rgba(160, 146, 211, 0.1)'
+        },
+        ticks: {
+          color: '#6B46C1'
+        }
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
       }
     }
   }
@@ -175,4 +304,8 @@ function downloadChart(chartId, filename) {
 </script>
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 76d0e869e664b86db84a4082d64aa6437cf7f82a
